@@ -169,6 +169,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         /*Warehouse start */
         Route::prefix("warehouse")->name('warehouse.')->group(function () {
             Route::get("/add", [WarehouseController::class, 'index'])->name('add');
+            Route::get("/products", [WarehouseController::class, 'products'])->name('products');
             Route::post('/store', [WarehouseController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [WarehouseController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [WarehouseController::class, 'update'])->name('update');
@@ -235,15 +236,6 @@ Route::middleware(['web', 'auth'])->group(function () {
         });
         /* Color End */
 
-        /*Warehouse start */
-        Route::prefix("warehouse")->name('warehouse.')->group(function () {
-            Route::get("/add", [WarehouseController::class, 'index'])->name('add');
-            Route::post('/store', [WarehouseController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [WarehouseController::class, 'edit'])->name('edit');
-            Route::post('/update/{id}', [WarehouseController::class, 'update'])->name('update');
-            Route::post('/destroy', [WarehouseController::class, 'destroy'])->name('destroy');
-        });
-        /*Warehouse end */
 
         /*Due Receive start */
         Route::prefix("due-receive")->name('dueReceive.')->group(function () {
