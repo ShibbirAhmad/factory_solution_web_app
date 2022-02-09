@@ -12,6 +12,9 @@
                                     <th>Company Name</th>
                                     <th>Phone</th>
                                     <th>Address</th>
+                                    <th>Total Amount</th>
+                                    <th>Total Paid</th>
+                                    <th> Due Amount</th>
                                     <th>Manage</th>
                                 </tr>
                                 </thead>
@@ -23,6 +26,9 @@
                                         <td>{{ $client_info->company_name }}</td>
                                         <td>{{ $client_info->phone }}</td>
                                         <td>{{ $client_info->address }}</td>
+                                        <td>{{ $client_info->total_amount }}</td>
+                                        <td>{{ $client_info->total_paid }}</td>
+                                        <td>{{ intval($client_info->total_amount) - intval($client_info->total_paid) }}</td>
                                         <td>
                                            @if(isset($client) && $client->id == $client_info->id)
                                                 <p class="badge badge-success p-4">Updating...</p>

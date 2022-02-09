@@ -20,6 +20,7 @@
                 </a>
             </li>
 
+
             <li class="menu">
                 <a href="#app" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -66,37 +67,13 @@
             </li>
 
 
-            <li class="menu">
-                <a href="#supplier" data-active="false" class="menu-toggle">
-                    <div class="base-menu">
-                        <div class="base-icons">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                        <span>Suppliers</span>
-                    </div>
-                </a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </li>
-
-
-            <li class="menu">
-                <a href="#hr" data-active="false" class="menu-toggle">
-                    <div class="base-menu">
-                        <div class="base-icons">
-                            <i class="fas fa-user-secret fa-2x"></i>
-                        </div>
-                        <span>HR</span>
-                    </div>
-                </a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </li>
 
             {{-- Order Start --}}
             <li class="menu">
                 <a href="#clientOrder" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons"> <i class="fal fa-clipboard fa-2x"></i> </div>
-                        <span>Client Order</span>
+                        <span> Order</span>
                     </div>
                 </a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -126,6 +103,17 @@
                 </a>
             </li>
 
+            <li class="menu">
+                <a href="#hr" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <i class="fas fa-user-secret fa-2x"></i>
+                        </div>
+                        <span>HR</span>
+                    </div>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </li>
 
             {{-- Admin Strat --}}
             <li class="menu">
@@ -140,6 +128,35 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </li>
             {{-- Admin End --}}
+
+
+            <li class="menu">
+                <a href="#supplier" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <span>Suppliers</span>
+                    </div>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </li>
+
+
+
+            <li class="menu">
+                <a href="#clients" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <span>Clients</span>
+                    </div>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </li>
+
+
         </ul>
     </nav>
 

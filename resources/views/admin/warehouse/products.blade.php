@@ -22,7 +22,6 @@
                                         <tr>
                                             <th>SL</th>
                                             <th>Product</th>
-                                            <th>Code</th>
                                             <th>Variant</th>
                                             <th>Stock</th>
                                         </tr>
@@ -30,24 +29,42 @@
                                     <tbody>
                                         @forelse($products as $key=>$item)
                                             @php
-                                                $image = !empty($item->product->image) ? asset(\App\Helper\dynamicFileLink('product') . $item->product->image) : \App\Helper\noImage();
+                                                $product = \App\Models\Product::findOrFail($item->product_id);
+                                                $image = !empty($product->image) ? asset(\App\Helper\dynamicFileLink('product') . $product->image) : \App\Helper\noImage();
                                             @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>
                                                     <div>
-                                                        <img height="80" width="80" src="{{ $image }}">
-                                                        <p>{{ $item->product->name }}</p>
+                                                        <img height="200" width="200" src="{{ $image }}">
+                                                        <p> Name: {{ $product->name }}</p>
+                                                        <p> Code: {{ $product->code }}</p>
                                                     </div>
 
                                                 </td>
-                                                <td> {{ $item->product->code }} </td>
-                                                <td> {{ $item->variant->name }} </td>
-                                                <td> {{ $item->stock }} </td>
 
+                                                <td colspan="2">
+                                                    <ul class="final_order_complition_list">
+                                                        @forelse ($item->variants as $v)
+                                                            <li>
+                                                                <div class="row">
+                                                                    <div class="col-lg-7">
+                                                                        {{ $v->variant->name }}
+
+                                                                    </div>
+                                                                    <div class="col-lg-5">
+                                                                        {{ $v->stock }}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        @empty
+                                                        @endforelse
+
+                                                    </ul>
+
+                                                </td>
                                             </tr>
                                         @empty
-
                                         @endforelse
                                     </tbody>
                                 </table>

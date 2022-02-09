@@ -18,6 +18,8 @@ class CreateClientsTable extends Migration
             $table->string('name');
             $table->string('company_name');
             $table->string('phone');
+            $table->double('total_amount')->default(0);
+            $table->double('total_paid')->default(0);
             $table->text('address')->nullable();
             $table->timestamps();
         });

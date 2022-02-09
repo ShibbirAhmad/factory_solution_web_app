@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Warehouse\WarehouseStoreRequest;
-use App\Http\Requests\Warehouse\WarehouseUpdateRequest;
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Models\WarehouseProduct;
-use App\Services\ProductionSoftwareService;
 use Illuminate\Http\Request;
+use App\Models\WarehouseProduct;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Services\ProductionSoftwareService;
+use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\Warehouse\WarehouseStoreRequest;
+use App\Http\Requests\Warehouse\WarehouseUpdateRequest;
 
 class WarehouseController extends Controller
 {
@@ -26,7 +28,14 @@ class WarehouseController extends Controller
     public function products()
     {
         $warehouse_id=Warehouse::where('user_id',auth()->id())->pluck('id');
-        $data['products'] = WarehouseProduct::query()->whereIn('warehouse_id',$warehouse_id)->select('id','warehouse_id','product_id','variant_id','stock')->orderByDesc('id')->paginate(30);
+        $data['products'] = WarehouseProduct::query()->whereIn('warehouse_id',$warehouse_id)
+                                  ->select(DB::raw('product_id,warehouse_id'))
+                                  ->groupBy('product_id','warehouse_id')
+                                  ->get()->each(function($value){
+                                    $value->{'variants'} = WarehouseProduct::where('warehouse_id',$value->warehouse_id)->where('product_id',$value->product_id)->select('variant_id','stock')->get();
+                                  });
+
+
         return view('admin.warehouse.products')->with($data);
     }
 

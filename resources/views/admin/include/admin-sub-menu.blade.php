@@ -13,29 +13,29 @@
 
     <div class="submenu" id="app">
         <ul class="submenu-list" data-parent-element="#app">
-            <li> <a href="{{ route('category.add') }}"> Add/New Category </a>  </li>
-            <li> <a href="{{ route('unit.add') }}"> Add/New Unit </a>  </li>
-            <li> <a href="{{ route('designation.add') }}"> Add/New Designation </a>  </li>
-            <li> <a href="{{ route('department.add') }}"> Add/New Department </a>  </li>
-            <li> <a href="{{ route('subDepartment.add') }}"> Add/New Sub Department </a>  </li>
-            <li> <a href="{{ route('paymentMethod.add') }}"> Add/New Payment Method </a>  </li>
-            <li> <a href="{{ route('color.add') }}"> Add/New Color </a>  </li>
-            <li> <a href="{{ route('client.create') }}"> Add/New Client </a>  </li>
-            <li> <a href="{{ route('attribute.index') }}"> Attributes(Size, Color) </a>  </li>
-            <li> <a href="{{ route('variant.index') }}"> Variant(M,L,Black,Navy) </a>  </li>
+            <li> <a href="{{ route('category.add') }}"> Add/New Category </a> </li>
+            <li> <a href="{{ route('unit.add') }}"> Add/New Unit </a> </li>
+            <li> <a href="{{ route('designation.add') }}"> Add/New Designation </a> </li>
+            <li> <a href="{{ route('department.add') }}"> Add/New Department </a> </li>
+            <li> <a href="{{ route('subDepartment.add') }}"> Add/New Sub Department </a> </li>
+            <li> <a href="{{ route('paymentMethod.add') }}"> Add/New Payment Method </a> </li>
+            <li> <a href="{{ route('color.add') }}"> Add/New Color </a> </li>
+            <li> <a href="{{ route('client.create') }}"> Add/New Client </a> </li>
+            <li> <a href="{{ route('attribute.index') }}"> Attributes(Size, Color) </a> </li>
+            <li> <a href="{{ route('variant.index') }}"> Variant(M,L,Black,Navy) </a> </li>
         </ul>
     </div>
 
 
 
-{{--  Employee start    --}}
+    {{-- Employee start --}}
     <div class="submenu" id="hr">
         <ul class="submenu-list" data-parent-element="#app">
-            <li>  <a href="{{ route('employee.add') }}"> Add/New Employee </a></li>
-            <li>  <a href="{{ route('attendance.add') }}"> Daily Attendance </a></li>
+            <li> <a href="{{ route('employee.add') }}"> Add/New Employee </a></li>
+            <li> <a href="{{ route('attendance.add') }}"> Daily Attendance </a></li>
         </ul>
     </div>
-{{--  Employee end    --}}
+    {{-- Employee end --}}
     {{-- Purcahse Sub Menu start --}}
     <div class="submenu" id="purchase">
         <ul class="submenu-list" data-parent-element="#app">
@@ -59,13 +59,13 @@
     </div>
     {{-- Due's Receive Sub Menu end --}}
 
-   {{-- Supplier Sub Menu start --}}
+    {{-- Supplier Sub Menu start --}}
     <div class="submenu" id="supplier">
         <ul class="submenu-list" data-parent-element="#app">
             <li>
                 <a href="{{ route('supplier.create') }}"> Add/New Supplier </a>
             </li>
-             <li>
+            <li>
                 <a href="{{ route('supplier.index') }}"> Manage Supplier </a>
             </li>
         </ul>
@@ -92,7 +92,7 @@
 
     {{-- Design end --}}
 
-   {{-- Design start --}}
+    {{-- Design start --}}
     <div class="submenu" id="products">
         <ul class="submenu-list" data-parent-element="#app">
             <li> <a href="{{ route('product.add') }}"> Add/New Product </a> </li>
@@ -102,11 +102,14 @@
 
     {{-- Design end --}}
 
-     {{-- Warehouse Sub Menu start --}}
+    {{-- Warehouse Sub Menu start --}}
     <div class="submenu" id="warehouse">
         <ul class="submenu-list" data-parent-element="#app">
             <li>
                 <a href="{{ route('warehouse.add') }}"> Add/New Warehouse </a>
+            </li>
+            <li>
+                <a href="{{ route('warehouse.products') }}"> Warehouse Products </a>
             </li>
         </ul>
     </div>
@@ -121,5 +124,17 @@
         </ul>
     </div>
     {{-- Warehouse Sub Menu end --}}
+
+
+    {{-- clients Sub Menu start --}}
+    <div class="submenu" id="clients">
+        <ul class="submenu-list" data-parent-element="#app">
+            <li>
+                <a href="{{ route('client.create') }}"> Manage Clients </a>
+            </li>
+        </ul>
+    </div>
+    {{-- clients Sub Menu end --}}
+
 
 </div>
