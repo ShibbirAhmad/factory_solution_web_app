@@ -92,6 +92,7 @@
             </li>
 
 
+
             <li class="menu">
                 <a href="#warehouse" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -99,6 +100,18 @@
                             <i class="far fa-building fa-2x"></i>
                         </div>
                         <span>Warehouse</span>
+                    </div>
+                </a>
+            </li>
+
+
+            <li class="menu">
+                <a href="#sales" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <i class="far fa-list-alt fa-2x"></i>
+                        </div>
+                        <span>Sales</span>
                     </div>
                 </a>
             </li>

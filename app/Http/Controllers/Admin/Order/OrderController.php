@@ -105,7 +105,7 @@ class OrderController extends Controller
                                   });
         $data['warehouses'] = Warehouse::where('user_id',auth()->id())->get();
         $data['order_variants'] = OrderVariant::where('order_id',$data['order']->id)->get();
-        $data['total_task_qty'] = $data['order_variants']->sum('except_qty');
+        $data['total_handover_qty'] = $data['order_variants']->sum('handover_qty');
 
         return view('admin.order.completion.group-report-and-completion')->with($data);
 

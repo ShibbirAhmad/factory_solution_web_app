@@ -7,28 +7,29 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SupplierController;
 use \App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\AttributesController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DueReceiveController;
-use App\Http\Controllers\Admin\Order\Task\TaskReportController;
-use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\DesignationController;
 use App\Http\Controllers\Admin\Order\OrderController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\SubDepartmentController;
 use App\Http\Controllers\Admin\Order\Task\TaskController;
 use App\Http\Controllers\Admin\Prototype\ProtoTypeController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AttributesController;
-use App\Http\Controllers\Admin\VariantController;
+use App\Http\Controllers\Admin\Order\Task\TaskReportController;
 
 Route::get('reboot', function () {
     Artisan::call('config:clear');
@@ -272,6 +273,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         //resource routes
         Route::resources([
+            'sale' => SaleController::class,
             'purchase' => PurchaseController::class,
             'supplier' => SupplierController::class,
             'client' => ClientController::class,

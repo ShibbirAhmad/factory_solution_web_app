@@ -126,7 +126,6 @@
                                     @forelse ($order->variants as $item)
                                         <li>
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
                                                 <div class="col-lg-2">
                                                     <b> {{ $item->variant->name }}</b>
                                                 </div>
@@ -142,13 +141,35 @@
                                                 <div class="col-lg-2">
                                                     <b> {{ $item->handover_qty }}</b>
                                                 </div>
-                                                <div class="col-lg-1"></div>
+                                                <div class="col-lg-2">
+                                                    Missing = {{ $item->except_qty - $item->handover_qty }}
+                                                </div>
                                             </div>
                                         </li>
+
                                     @empty
                                         No data found
                                     @endforelse
-
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-3">
+                                                <p>Total Assigned Quantity =</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <b> {{ $order->expected_qty }}</b>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>Total Hand-Over =</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <b> {{ $total_handover_qty }}</b>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                Total Missing = {{ $order->expected_qty - $total_handover_qty }}
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
 

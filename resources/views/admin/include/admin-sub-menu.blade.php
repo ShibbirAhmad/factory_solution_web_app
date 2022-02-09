@@ -115,7 +115,24 @@
     </div>
     {{-- Warehouse Sub Menu end --}}
 
-    {{-- Warehouse Sub Menu start --}}
+
+
+    {{-- sales Sub Menu start --}}
+    <div class="submenu" id="sales">
+        <ul class="submenu-list" data-parent-element="#app">
+            <li>
+                <a href="{{ route('sale.create') }}"> Add/New Sale </a>
+            </li>
+            <li>
+                <a href="{{ route('sale.index') }}"> Mange Sale </a>
+            </li>
+        </ul>
+    </div>
+    {{-- sales Sub Menu end --}}
+
+
+
+    {{-- admin Sub Menu start --}}
     <div class="submenu" id="admin">
         <ul class="submenu-list" data-parent-element="#app">
             <li>
@@ -123,7 +140,7 @@
             </li>
         </ul>
     </div>
-    {{-- Warehouse Sub Menu end --}}
+    {{-- admin Sub Menu end --}}
 
 
     {{-- clients Sub Menu start --}}

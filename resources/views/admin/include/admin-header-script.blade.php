@@ -137,7 +137,7 @@
         height: 33px !important;
     }
 
-    .order_variant_values {
+    .order_variant_values, .sale_variant_values {
         height: 33px !important;
     }
 
