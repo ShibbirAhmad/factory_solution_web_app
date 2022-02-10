@@ -11,7 +11,7 @@
                             <div class="widget-header">
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center">
-                                        <h4>Purchasing Product List</h4>
+                                        <h4>Sales Product List</h4>
                                     </div>
                                 </div>
                             </div>
@@ -29,62 +29,23 @@
                                     </thead>
                                     <tbody>
 
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <img src="" width="80px" width="80px">
-                                                <p> Premium Panjabi </p>
-                                                <p> code: 78974 </p>
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    <li> M = 10 </li>
-                                                    <li> L = 10 </li>
-                                                    <li> XL = 10 </li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                450 * 30
-                                            </td>
-                                            <td>
-                                                13500
-                                            </td>
-                                            <td>
-
-                                                <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-alt fa-1x"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <img src="" width="80px" width="80px">
-                                                <p> Premium Panjabi </p>
-                                                <p> code: 78974 </p>
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    <li> M = 10 </li>
-                                                    <li> L = 10 </li>
-                                                    <li> XL = 10 </li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                450 * 30
-                                            </td>
-                                            <td>
-                                                13500
-                                            </td>
-                                            <td>
-
-                                                <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-alt fa-1x"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
                                         <tr v-for="(item,item_index) in sale_items" :key="item_index">
                                             <td>@{{ item_index + 1 }}</td>
-                                            <td>@{{ itemProduct(item.product_id) }}</td>
-                                            <td>@{{ item.price }} * @{{ item.qty }}</td>
+                                            <td>
+                                                <div class="sale_product_item_preview">
+                                                    <img :src="base_url +'/'+ item.product.image" width="80px" width="80px">
+                                                    <p> @{{ item.product.name }} </p>
+                                                    <p> code: @{{ item.product.code }} </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <ul class="sale_variant_preview_list">
+                                                    <li v-for="(variant,s_index) in item.variants" :key="s_index">
+                                                        @{{ variant.name }} = @{{ variant.qty }}
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>@{{ item.price }} * @{{ item.total_qty }} </td>
                                             <td>@{{ item.amount }} </td>
                                             <td>
 
@@ -186,7 +147,7 @@
                                 <div class="form-group">
                                     <div class="form-group variant_container mb-4">
                                         <label class="control-label"> Order Variants </label>
-                                        <input type="hidden" id="sale_variant_and_qty" value="" name="sale_variant_and_qty">
+                                        <input type="hidden" id="sale_variant_and_qty" value="" name="variant_and_qty">
                                         <ul>
 
                                             <li v-if="product_variants" v-for="(v_item,v_index) in product_variants"
@@ -214,7 +175,9 @@
                                                             <div class="variant_value_container">
                                                                 <input placeholder="0" min="1" type="number"
                                                                     :max="v_item.stock"
+                                                                    :id="'max_sale_qty_'+v_item.variant_id"
                                                                     :sale_variant_qty_id="v_item.variant_id"
+                                                                    :sale_variant_qty_name="v_item.variant.name"
                                                                     name="sale_variant_qty_value"
                                                                     class="sale_variant_values form-control">
                                                             </div>
@@ -243,7 +206,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Manage Sale</h4>
+                                <h4> Sale Amount/Payment Section </h4>
                             </div>
                         </div>
                     </div>
@@ -302,11 +265,6 @@
                             <textarea class="form-control" name="note" v-model="note" rows="2"></textarea>
                         </div>
 
-                        <div class="form-group mb-2">
-                            <label class="control-label">Invoice Memo</label>
-                            <input v-on:change="uploadAttachment" type="file" multiple name="attachments">
-                        </div>
-
                         <div class="form-group mb-2 text-center">
                             <button v-on:click="submitsale" type="submit" class="btn btn-primary p-2 ">Submit
                                 Sale</button>
@@ -321,14 +279,6 @@
 
     </div>
 
-
-
-    <script>
-        window.products = {!! json_encode(
-    \App\Models\Product::query()->where('user_id', auth()->id())->orderBy('name')->get()->toArray(),
-    JSON_HEX_TAG,
-) !!};
-    </script>
 
 @endsection
 
@@ -349,6 +299,7 @@
                     price: null,
                     discount: null,
                     qty: 0,
+                    total_qty: 0,
                     payable_date: null,
                     note: null,
                     total_amount: 0,
@@ -356,8 +307,7 @@
                     paid: 0,
                     payment_method: '',
                     transaction_id: null,
-                    attachments: '',
-                    products: window.products,
+                    base_url: 'http://127.0.0.1:8000/storage/project_files/user2/product',
                     validation_check: true,
                     submit_validation: true,
                     warehouse_id: '',
@@ -456,17 +406,21 @@
                             total_qty: parseInt(document.getElementById('variants_total_qty').value),
                             product_id: this.product_id,
                             product: this.product,
-                            variants: document.getElementById('sale_variant_and_qty').value ,
+                            variants: JSON.parse(document.getElementById('sale_variant_and_qty').value),
                             amount: (parseFloat(this.price) * parseFloat(document.getElementById(
                                 'variants_total_qty').value))
                         }
                         this.sale_items.push(item);
+                        this.flashSwal('item added in sale list');
+                        this.product = null;
+                        this.product_code = null;
+                        this.product_variants = '';
                         this.price = null;
-                        this.qty = 1;
+                        this.total_qty = 0;
                         this.product_id = '';
-                        this.product=null ;
+                        this.product = null;
                         document.getElementById('sale_variant_and_qty').value = '';
-                        document.getElementById('variants_total_qty'.value) = 0;
+                        document.getElementById('variants_total_qty').value = 0;
                         this.validation_check = true;
                         this.totalAmount();
                     }
@@ -499,22 +453,8 @@
                     this.totalAmount();
                     this.dueAmountCaluculation();
                 },
-                //parsing product name
-                itemProduct(item_id) {
-                    let product_name = '';
-                    this.products.forEach(product => {
-                        if (product.id == item_id) {
-                            product_name = product.name;
-                        }
-                    });
-                    return product_name;
-                },
 
 
-                uploadAttachment(e) {
-                    const file = e.target.files
-                    this.attachments = file
-                },
 
                 validation() {
                     //checking client field
@@ -528,7 +468,7 @@
                         return;
                     }
                     //checking price field
-                    else if (this.price == null) {
+                    else if (this.price == null || this.price.length <= 0 ) {
                         this.flashSwal('please, add sale price of product');
                         return;
                     }
@@ -577,7 +517,7 @@
             computed: {
                 itemAmount: function() {
                     return parseInt(document.getElementById('variants_total_qty').value) * (this.price == null ?
-                        1 : parseInt(this.price))
+                        0 : parseInt(this.price))
                 },
 
             }
@@ -600,30 +540,30 @@
         $(document).on('keyup', '.sale_variant_values', function() {
 
             var sale_qty = [];
-
+            var variant_and_qty = [];
             $("input[name='sale_variant_qty_value']").each(function() {
 
                 let variant_of_id = $(this).attr('sale_variant_qty_id')
-                let max_qty = $(this).attr('max');
-                var variant_and_qty = [];
-
+                let name_of_variant = $(this).attr('sale_variant_qty_name')
                 if (document.getElementById('sale_variant_check_' + variant_of_id).checked) {
                     let variant_quantity = $(this).val();
                     //check if the input quantity is greater
-                    if (variant_quantity > max_qty) {
+                    let max_qty = $('#max_sale_qty_'+variant_of_id).attr('max');
+                    console.log(max_qty);
+                    if (parseInt(variant_quantity) > parseInt(max_qty) ) {
                         Swal.fire({
-                            icon: 'error',
                             title: 'Oops...',
                             text: 'error! quantity is greater than stock ',
                         })
                         return;
                     }
 
-                    sale_qty.push(variant_quantity.length <= 0 ? 1 : variant_quantity);
+                    sale_qty.push(variant_quantity.length <= 0 ? 0 : variant_quantity);
                     //create an object by selected items
                     let item = {
-                        variant_id: variant_of_id,
-                        qty: variant_quantity.length <= 0 ? 1 : variant_quantity,
+                        id: variant_of_id,
+                        name: name_of_variant,
+                        qty: variant_quantity.length <= 0 ? 0 : variant_quantity,
                     }
                     variant_and_qty.push(item);
                 }

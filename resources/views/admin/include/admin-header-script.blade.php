@@ -78,6 +78,19 @@
         min-width: 300px;
     }
 
+    .sale_variant_preview_list {
+        list-style-type: none;
+        padding: 0 0 0 5px;
+
+    }
+
+    .sale_variant_preview_list li {
+        padding: 3px 3px;
+        font-size: 14px;
+        color: #000;
+        font-family: serif;
+    }
+
     .final_order_complition_list {
         list-style-type: none;
         padding: 0 0 0 5px;
@@ -90,6 +103,7 @@
         color: #000;
         font-family: serif;
     }
+
 
     .group_report_list_container ul {
         list-style-type: none;

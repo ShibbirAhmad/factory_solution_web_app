@@ -398,7 +398,7 @@
                         return;
                     }
                     //checking price field
-                    else if (this.price == null) {
+                    else if (this.price == null || this.price.length <= 0) {
                         this.flashSwal('please, add purchase price of item');
                         return;
                     }
