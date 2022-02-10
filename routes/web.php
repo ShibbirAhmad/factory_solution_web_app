@@ -121,6 +121,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         /*Product start */
         Route::prefix("product")->name('product.')->group(function () {
             Route::get("/add", [ProductController::class, 'index'])->name('add');
+            Route::get("/search/by/code/{warehouse_id}/{product_code}", [ProductController::class, 'searchByCode'])->name('search_by_warehouse');
             Route::post('/store', [ProductController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [ProductController::class, 'update'])->name('update');

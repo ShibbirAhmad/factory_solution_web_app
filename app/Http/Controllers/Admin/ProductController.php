@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Str;
 use App\Models\Product;
 use App\Models\Category;
-use App\Services\ProductionSoftwareService;
 use Illuminate\Http\Request;
 use App\Traits\StoreImageTrait;
+use App\Models\WarehouseProduct;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\CategoryStoreRequest;
-use App\Http\Requests\Category\CategoryUpdateRequest;
+use App\Services\ProductionSoftwareService;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
-use Str;
+use App\Http\Requests\Category\CategoryStoreRequest;
+use App\Http\Requests\Category\CategoryUpdateRequest;
+
 class ProductController extends Controller
 {
     use StoreImageTrait;
@@ -77,4 +79,36 @@ class ProductController extends Controller
             return response()->json(['success'=>'Data Deleted','code'=>200]);
         }
     }
+
+
+
+
+    public function searchByCode($warehouse_id,$product_code){
+
+          $product = Product::where('code',$product_code)->select('id','name','code','image')->first();
+          if (!empty($product)) {
+            $variants = WarehouseProduct::where('warehouse_id',$warehouse_id)->where('product_id',$product->id)->where('stock', '>',0)->select('variant_id','stock')->with('variant:id,name')->get();
+            return response()->json([
+                'status' => 1 ,
+                'product' => $product ,
+                'variants' => $variants,
+            ]);
+          }else{
+             return response()->json([
+                'status' => 0 ,
+                'message' => 'product not found' ,
+             ]);
+          }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

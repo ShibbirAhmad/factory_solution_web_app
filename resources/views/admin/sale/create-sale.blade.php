@@ -21,13 +21,66 @@
                                         <tr>
                                             <th>SL</th>
                                             <th> Product </th>
-                                            <th> Unit </th>
-                                            <th> Price * Qty </th>
+                                            <th> Variants </th>
+                                            <th> Price * Total Qty </th>
                                             <th> Amount </th>
                                             <th> Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <img src="" width="80px" width="80px">
+                                                <p> Premium Panjabi </p>
+                                                <p> code: 78974 </p>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li> M = 10 </li>
+                                                    <li> L = 10 </li>
+                                                    <li> XL = 10 </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                450 * 30
+                                            </td>
+                                            <td>
+                                                13500
+                                            </td>
+                                            <td>
+
+                                                <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-alt fa-1x"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <img src="" width="80px" width="80px">
+                                                <p> Premium Panjabi </p>
+                                                <p> code: 78974 </p>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li> M = 10 </li>
+                                                    <li> L = 10 </li>
+                                                    <li> XL = 10 </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                450 * 30
+                                            </td>
+                                            <td>
+                                                13500
+                                            </td>
+                                            <td>
+
+                                                <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-alt fa-1x"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                         <tr v-for="(item,item_index) in sale_items" :key="item_index">
                                             <td>@{{ item_index + 1 }}</td>
                                             <td>@{{ itemProduct(item.product_id) }}</td>
@@ -73,10 +126,25 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <label for="category" class="col-sm-2 col-form-label">Warehouse </label>
+                                    <div class="col-sm-10">
+                                        <select name="client" v-model="warehouse_id" class="form-control ">
+                                            <option value="" disabled selected>Select Warehouse of Product </option>
+                                            @forelse ($warehouses as $w)
+                                                <option value="{{ $w->id }}">{{ $w->name }}</option>
+                                            @empty
+                                                Warehouse Not Found
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <label for="product_code" class="col-sm-2 col-form-label">Product</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name="product_id" v-model="product_id" class="form-control"
-                                            placeholder="product code ">
+                                        <input v-on:keyup="searchProduct" type="text" name="product_code" maxlength="6"
+                                            v-model="product_code" class="form-control"
+                                            placeholder="type product code and press enter ">
                                     </div>
                                 </div>
 
@@ -98,7 +166,7 @@
                                         <div class="form-group row">
                                             <label for="qty" class="col-sm-5 col-form-label">Total Quantity</label>
                                             <div class="col-sm-7">
-                                                <input type="number" readonly name="qty" v-model="qty"
+                                                <input type="number" readonly value="" id="variants_total_qty"
                                                     class="form-control">
                                             </div>
                                         </div>
@@ -120,45 +188,41 @@
                                         <label class="control-label"> Order Variants </label>
                                         <input type="hidden" id="sale_variant_and_qty" value="" name="sale_variant_and_qty">
                                         <ul>
-                                            @forelse ($tasks as $item)
-                                                <li>
 
-                                                    <div style="width: 100%" class="n-chk">
+                                            <li v-if="product_variants" v-for="(v_item,v_index) in product_variants"
+                                                :key="v_index">
 
-                                                        <div class="row">
-                                                            <div class="col-lg-1">
-                                                                <label style="margin-right:10px;"
-                                                                    class="new-control new-checkbox checkbox-primary">
-                                                                    <input name="sale_variants[]"
-                                                                        value="{{ $item->variant->id }}"
-                                                                        type="checkbox"
-                                                                        class="sale_create_variants new-control-input">
-                                                                    <span
-                                                                        class="new-control-indicator"></span>{{ $item->variant->name }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-lg-4">
-                                                                <p style="color:blue;margin-left:50px;margin-top:5px;">
-                                                                    current stock qty = {{ $item->except_qty }} </p>
-                                                            </div>
-                                                            <div class="col-lg-4">
-                                                                <div class="variant_value_container">
-                                                                    <input placeholder="0" min="1" type="number" value=""
-                                                                        variant_task_receive_of_id="{{ $item->variant->id }}"
-                                                                        id="sale_variant_input_{{ $item->variant->id }}"
-                                                                        name="sale_variant"
-                                                                        class="sale_variant_values form-control">
-                                                                </div>
+                                                <div style="width: 100%" class="n-chk">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-1">
+                                                            <label style="margin-right:10px;"
+                                                                class="new-control new-checkbox checkbox-primary">
+                                                                <input name="sale_variants[]" :value="v_item.variant_id"
+                                                                    :id="'sale_variant_check_'+v_item.variant_id"
+                                                                    type="checkbox"
+                                                                    class="sale_create_variants new-control-input">
+                                                                <span class="new-control-indicator"></span>
+                                                                @{{ v_item.variant.name }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <p style="color:blue;margin-left:50px;margin-top:5px;">
+                                                                current stock qty = @{{ v_item.stock }} </p>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="variant_value_container">
+                                                                <input placeholder="0" min="1" type="number"
+                                                                    :max="v_item.stock"
+                                                                    :sale_variant_qty_id="v_item.variant_id"
+                                                                    name="sale_variant_qty_value"
+                                                                    class="sale_variant_values form-control">
                                                             </div>
                                                         </div>
-
                                                     </div>
-                                                </li>
-                                            @empty
-                                                <li> No Data Found </li>
-                                            @endforelse
 
-
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -296,9 +360,50 @@
                     products: window.products,
                     validation_check: true,
                     submit_validation: true,
+                    warehouse_id: '',
+                    product_code: null,
+                    product: '',
+                    product_variants: '',
                 }
             },
             methods: {
+
+
+
+                async searchProduct() {
+
+                    if (this.product_code.length == 6) {
+
+                        if (this.product_code.length < 1 || this.warehouse_id == '') {
+                            this.flashSwal('product code and warehouse is empty');
+                            return;
+                        }
+
+                        this.product = null,
+                            this.product_variants = null,
+                            await axios.get('/admin/product/search/by/code/' + this.warehouse_id + '/' + this
+                                .product_code)
+                            .then((response) => {
+                                console.log(response);
+                                if (response.data.status == 1) {
+                                    this.product_id = response.data.product.id
+                                    this.product = response.data.product
+                                    this.product_variants = response.data.variants
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: ' not found ',
+                                    })
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error.response.data);
+                            });
+                    }
+                },
+
+
 
                 async submitsale() {
                     this.saleSubmitValidation();
@@ -348,14 +453,20 @@
                     if (this.validation_check == false) {
                         let item = {
                             price: this.price,
-                            qty: this.qty,
+                            total_qty: parseInt(document.getElementById('variants_total_qty').value),
                             product_id: this.product_id,
-                            amount: (parseFloat(this.price) * parseFloat(this.qty))
+                            product: this.product,
+                            variants: document.getElementById('sale_variant_and_qty').value ,
+                            amount: (parseFloat(this.price) * parseFloat(document.getElementById(
+                                'variants_total_qty').value))
                         }
                         this.sale_items.push(item);
                         this.price = null;
                         this.qty = 1;
                         this.product_id = '';
+                        this.product=null ;
+                        document.getElementById('sale_variant_and_qty').value = '';
+                        document.getElementById('variants_total_qty'.value) = 0;
                         this.validation_check = true;
                         this.totalAmount();
                     }
@@ -408,17 +519,22 @@
                 validation() {
                     //checking client field
                     if (this.client_id == '') {
-                        this.flashSwal('please, add client');
+                        this.flashSwal('please, select client');
+                        return;
+                    }
+                    //checking warehouse field
+                    if (this.warehouse_id == '') {
+                        this.flashSwal('please, select warehouse');
                         return;
                     }
                     //checking price field
                     else if (this.price == null) {
-                        this.flashSwal('please, add sale price of item');
+                        this.flashSwal('please, add sale price of product');
                         return;
                     }
                     //checking quantity field
-                    else if (this.qty < 1) {
-                        this.flashSwal('please, add quantity');
+                    else if (parseInt(document.getElementById('variants_total_qty').value) < 1) {
+                        this.flashSwal('please, add variant quantity');
                         return;
                     }
                     //checking product field
@@ -460,12 +576,71 @@
             },
             computed: {
                 itemAmount: function() {
-                    return parseInt(this.qty) * (this.price == null ? 0 : parseInt(this.price))
+                    return parseInt(document.getElementById('variants_total_qty').value) * (this.price == null ?
+                        1 : parseInt(this.price))
                 },
 
             }
         })
+
+
+        // vue scripts end
+
+
+
+
+
+
+
+
+
+
+        // jqury scripts start
+
+        $(document).on('keyup', '.sale_variant_values', function() {
+
+            var sale_qty = [];
+
+            $("input[name='sale_variant_qty_value']").each(function() {
+
+                let variant_of_id = $(this).attr('sale_variant_qty_id')
+                let max_qty = $(this).attr('max');
+                var variant_and_qty = [];
+
+                if (document.getElementById('sale_variant_check_' + variant_of_id).checked) {
+                    let variant_quantity = $(this).val();
+                    //check if the input quantity is greater
+                    if (variant_quantity > max_qty) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'error! quantity is greater than stock ',
+                        })
+                        return;
+                    }
+
+                    sale_qty.push(variant_quantity.length <= 0 ? 1 : variant_quantity);
+                    //create an object by selected items
+                    let item = {
+                        variant_id: variant_of_id,
+                        qty: variant_quantity.length <= 0 ? 1 : variant_quantity,
+                    }
+                    variant_and_qty.push(item);
+                }
+
+            });
+
+            let qty = 0;
+            for (let index = 0; index < sale_qty.length; index++) {
+                qty += parseInt(sale_qty[index]);
+            }
+
+            document.getElementById('variants_total_qty').value = qty;
+            document.getElementById('sale_variant_and_qty').value = JSON.stringify(variant_and_qty);
+
+        });
     </script>
+
 
 
 

@@ -8,6 +8,7 @@ use App\Models\OrderVariant;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Http\Controllers\Controller;
+use App\Models\Warehouse;
 
 class SaleController extends Controller
 {
@@ -30,6 +31,7 @@ class SaleController extends Controller
     {
 
          $data['clients']=Client::query()->where('user_id',auth()->id())->get();
+         $data['warehouses']=Warehouse::query()->where('user_id',auth()->id())->get();
          $data['payment_methods']=PaymentMethod::orderBy('name')->get();
          $data['tasks'] = OrderVariant::where('order_id',8)->get();
          return view('admin.sale.create-sale')->with($data) ;
