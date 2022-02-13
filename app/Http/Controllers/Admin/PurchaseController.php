@@ -68,11 +68,17 @@ class PurchaseController extends Controller
                     $p_item['price'] = $item['price'] ;
                     PurchaseProduct::query()->create($p_item);
                 }
+                    //updating supplier records
+                    $supplier=Supplier::findOrFail($data['supplier_id']);
+                    $supplier->total_amount = intval( $supplier->total_amount) + intval($data['amount']) ;
+                    $supplier->total_discount = intval( $supplier->total_discount) + intval($data['discount']) ;
+                    $supplier->total_paid = intval( $supplier->total_paid) + intval($data['paid']) ;
+                    $supplier->save();
                 //storing cashbook of debit amount
                 if ($data['payment_method'] && $data['paid'] > 0) {
                     $data['amount'] = $data['paid'] ;
                     $data['due_type'] = 'purchase' ;
-                    CashBookService::paymentStore($data,1) ;
+                    CashBookService::paymentStore($data,$purchase->invoice_no,1) ;
                 }
                 DB::commit();
                 return response()->json([
@@ -87,8 +93,7 @@ class PurchaseController extends Controller
 
     public function show($id)
     {
-        $data['purchase'] = Purchase::findOrFail($id);
-        $data['due'] = 0;
+        $data['purchase'] = Purchase::with('purchaseItems.product')->findOrFail($id);
         return view('admin.purchase.show')->with($data);
     }
 

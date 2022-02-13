@@ -1,11 +1,12 @@
 <?php
 namespace App\Services;
 
-use App\Models\Cashbook;
+use App\Models\Sale;
 use App\Models\Order;
+use App\Models\Cashbook;
 use App\Models\Purchase;
-use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\This;
+use phpDocumentor\Reflection\Types\Integer;
 
 class ProductionSoftwareService
 {
@@ -60,9 +61,8 @@ class ProductionSoftwareService
         }
         elseif($invoice_no_type == 3)
         {
-            // Sale not integrated yet.
-//            $isExists = self::isExist(new Sale(),'invoice_no',$invoice_no);
-//            return !empty($isExists) ? self::uniqueInvoiceNoMaker($invoice_no_type) : $invoice_no;
+           $isExists = self::isExist(new Sale(),'invoice_no',$invoice_no);
+           return !empty($isExists) ? self::uniqueInvoiceNoMaker($invoice_no_type) : $invoice_no;
         }
         else if ($invoice_no_type == 4){
             $isExists = self::isExist(new Order(),'invoice_no',$invoice_no);

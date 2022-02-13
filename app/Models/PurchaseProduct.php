@@ -15,13 +15,17 @@ class PurchaseProduct extends Model
         return $this->belongsTo(Product::class,'product_id')->select(['id','name']) ;
     }
 
-    
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
     }
+
+
     public function purchase()
     {
         return $this->belongsTo('App\Models\Purchase');
     }
+
+    
 }

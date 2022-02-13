@@ -24,7 +24,7 @@
                                         </p>
                                     </div>
                                     <div class="amount_info">
-                                        
+
                                         <p class="">Total Amount: <strong class="total_amount">
                                             {{ $purchase->total }}</strong>
                                         </p>

@@ -24,7 +24,7 @@ class ProductStoreRequest extends FormRequest
      */
     public function rules()
     {
-        Log::debug($this->request->all());
+      //  Log::debug($this->request->all());
         return [
             'category_id'=>'required',
             'code'=>'required|unique:products',

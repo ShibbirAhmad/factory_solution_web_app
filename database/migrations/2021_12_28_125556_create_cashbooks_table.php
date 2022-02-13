@@ -19,6 +19,8 @@ class CreateCashbooksTable extends Migration
             $table->foreignId('purchase_id')->nullable()->constrained();
             $table->foreignId('supplier_id')->nullable()->constrained();
             $table->foreignId('order_id')->nullable()->constrained();
+            $table->foreignId('client_id')->nullable()->constrained();
+            $table->foreignId('sale_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained()->comment('Customer user_id which is primary id of users table');
             $table->foreignId('payment_method_id')->nullable()->constrained()->comment('Cash/Bank/Mobile Banking etc');
             $table->double('amount')->default(0);

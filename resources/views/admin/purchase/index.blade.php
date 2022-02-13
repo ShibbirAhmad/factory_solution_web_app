@@ -44,7 +44,7 @@
                                                 <td> {{ number_format($purchase->total,2)  }} </td>
                                                 <td> {{ $purchase->discount }} </td>
                                                 <td> {{ number_format($purchase->paid,2)  }} </td>
-                                                <td> {{ $due+= ($purchase->total - $purchase->discount) - $purchase->paid }} </td>
+                                                <td> {{ intval($purchase->total) - ( intval($purchase->paid) + intval($purchase->discount) ) }} </td>
                                                 <td> {{ date('d-m-Y', strtotime($purchase->payable_date)); }} </td>
                                                 <td>
                                                     <a href="{{route('purchase.show', $purchase->id)}}" class="btn btn-xs btn-success" > <i class="fa fa-eye fa-1x"></i> </a>

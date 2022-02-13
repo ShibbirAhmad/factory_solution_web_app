@@ -220,7 +220,7 @@
 
                         <div class="form-group mb-2">
                             <label class="control-label">Total</label>
-                            <input type="number" v-model="total_amount" readonly placeholder="00" name="total_amount"
+                            <input type="number" v-model="total" readonly placeholder="00" name="total"
                                 class="form-control">
                         </div>
 
@@ -242,11 +242,6 @@
                             <input type="number" readonly v-model="due" placeholder="00" name="due" class="form-control">
                         </div>
 
-
-                        <div class="form-group mb-2">
-                            <label class="control-label">Date</label>
-                            <input type="date" class="form-control" name="date" v-model="payable_date">
-                        </div>
 
                         <div class="form-group mb-2">
                             <label class="col-form-label">Select Cash Receive Method</label>
@@ -297,12 +292,11 @@
                     client_id: '',
                     product_id: '',
                     price: null,
-                    discount: null,
+                    discount: 0,
                     qty: 0,
                     total_qty: 0,
-                    payable_date: null,
                     note: null,
-                    total_amount: 0,
+                    total: 0,
                     due: 0,
                     paid: 0,
                     payment_method: '',
@@ -366,14 +360,13 @@
                         const data = {
                             sale_items: this.sale_items,
                             client_id: this.client_id,
+                            warehouse_id: this.warehouse_id,
                             paid: this.paid,
                             payment_method: this.payment_method,
                             transaction_id: this.transaction_id,
                             discount: this.discount,
-                            total_amount: this.total_amount,
-                            payable_date: this.payable_date,
+                            total: this.total,
                             note: this.note,
-                            attachments: this.attachments,
                         }
 
                         await axios.post('/admin/sale', data)
@@ -382,7 +375,7 @@
                                 if (response.data.status == 1) {
                                     this.sale_items = '';
                                     this.client_id = '';
-
+                                    this.warehouse_id = '';
                                     this.flashSwal(response.data.message);
                                     window.history.back();
                                 }
@@ -431,13 +424,13 @@
                         this.sale_items.forEach((item) => {
                             t_amount += parseFloat(item.amount);
                         });
-                        this.total_amount = t_amount;
+                        this.total = t_amount;
                         this.due = t_amount;
                         return;
                     }
                 },
                 dueAmountCaluculation() {
-                    let t_amount = parseFloat(this.total_amount);
+                    let t_amount = parseFloat(this.total);
                     this.discount = this.discount.length <= 0 && this.discount <= 0 ? 0 : parseFloat(this.discount);
                     this.paid = this.paid.length <= 0 && this.paid <= 0 ? 0 : parseFloat(this.paid);
 
@@ -493,11 +486,7 @@
                             this.flashSwal('please, select payment method of sale amount');
                             return;
                         }
-                        //checking payment date
-                        else if (this.payable_date == null) {
-                            this.flashSwal('please, select payment date');
-                            return;
-                        } else {
+                        else {
                             this.submit_validation = false;
                         }
                     } else {
