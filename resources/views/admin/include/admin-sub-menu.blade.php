@@ -75,8 +75,8 @@
     {{-- Client Order Start --}}
     <div class="submenu" id="clientOrder">
         <ul class="submenu-list" data-parent-element="#app">
-            <li> <a href="{{ route('order.add') }}"> Add/New Order </a> </li>
-            <li> <a href="{{ route('order.list') }}"> Manage Orders </a> </li>
+            <li> <a href="{{ route('order.add') }}"> Add/New Production </a> </li>
+            <li> <a href="{{ route('order.list') }}"> Manage Productions </a> </li>
 
         </ul>
     </div>

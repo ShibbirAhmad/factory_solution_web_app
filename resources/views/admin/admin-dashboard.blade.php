@@ -1,82 +1,326 @@
 @extends('admin.layouts.admin')
-@section('title','Admin Dashboard')
+@section('title', 'Admin Dashboard')
 @section('content')
-    <div class="row layout-top-spacing">
-        <div id="infobox3" class="col-xl-12 col-lg-12 layout-spacing">
-            <div class="statbox widget box box-shadow">
-                <div class="widget-header">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4> Infobox 3 </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget-content widget-content-area">
-                    <div class="infobox-3">
-                        <div class="info-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                        </div>
-                        <h5 class="info-heading">Layout Package</h5>
-                        <p class="info-text">Lorem ipsum dolor sit amet, labore et dolore magna aliqua.</p>
-                        <a class="info-link" href="">Discover <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-                    </div>
+    <div style="margin-left:-40px;" class="row layout-top-spacing mt-2">
 
-                    <div class="code-section-container">
 
-                        <button class="btn toggle-code-snippet"><span>Code</span></button>
 
-                        <div class="code-section text-left">
-                                                <pre class="hljs javascript">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"infobox-3"</span>&gt;
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-icon"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-heading"</span>&gt;</span>Layout Package<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-text"</span>&gt;</span>Lorem ipsum dolor sit amet, labore et dolore magna aliqua.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>Discover <span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span>
-    <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></pre>
-                        </div>
-                    </div>
-
-                </div>
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs blue">
+                <h3>
+                    <span class="person_counter">
+                        {{ $on_going_production }}
+                    </span>
+                    On Going Production
+                </h3>
+                <h4>&#2547; {{ $on_going_production_amount }}</h4>
+                <a href="" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/hard-work.png') }}" />
             </div>
         </div>
-        <div id="infobox3" class="col-xl-12 col-lg-12 layout-spacing">
-            <div class="statbox widget box box-shadow">
-                <div class="widget-header">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4> Infobox 3 </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget-content widget-content-area">
-                    <div class="infobox-3">
-                        <div class="info-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                        </div>
-                        <h5 class="info-heading">Layout Package</h5>
-                        <p class="info-text">Lorem ipsum dolor sit amet, labore et dolore magna aliqua.</p>
-                        <a class="info-link" href="">Discover <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-                    </div>
 
-                    <div class="code-section-container">
-
-                        <button class="btn toggle-code-snippet"><span>Code</span></button>
-
-                        <div class="code-section text-left">
-                                                <pre class="hljs javascript">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"infobox-3"</span>&gt;
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-icon"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-heading"</span>&gt;</span>Layout Package<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-text"</span>&gt;</span>Lorem ipsum dolor sit amet, labore et dolore magna aliqua.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"info-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>Discover <span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span>
-    <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></pre>
-                        </div>
-                    </div>
-
-                </div>
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs red">
+                <h3>
+                    <span class="person_counter">
+                        {{ $pending_production }}
+                    </span>
+                    Pending Production
+                </h3>
+                <h4>&#2547; {{ $pending_production_amount }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/schedule.png') }}" />
             </div>
         </div>
+
+
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs green">
+                <h3>
+                    <span class="person_counter">
+                        {{ $completed_production }}
+                    </span>
+                    Completed Production
+                </h3>
+                <h4>&#2547; {{ $completed_production_amount }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/completed-task.png') }}" />
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs green">
+                <h3>
+                    <span class="person_counter">
+                        {{ $completed_production }}
+                    </span>
+                    Completed Production
+                </h3>
+                <h4>&#2547; {{ $completed_production_amount }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/completed-task.png') }}" />
+            </div>
+        </div>
+
+
+          <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs green">
+                <h3>
+                    <span class="person_counter">
+                        {{ $total_supplier }}
+                    </span>
+                    Total Suppliers & Due
+                </h3>
+                <h4>&#2547; {{ $total_supplier_due_amount->due_amount }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/target.png') }}" />
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs blue">
+                <h3>
+                    <span class="person_counter">
+                        {{ $total_client }}
+                    </span>
+                    Total Clients & Due
+                </h3>
+                <h4>&#2547;{{ $total_client_due_amount->due_amount }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/contact.png') }}" />
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs green">
+                <h3>
+
+                    Current Balance
+                </h3>
+                <h4>&#2547; {{ $current_balance }}</h4>
+                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/cash.png') }}" />
+            </div>
+        </div>
+
+
+
     </div>
+
+    <div class="row  layout-top-spacing mt-5">
+
+
+        <div class="col-lg-4">
+            <div class="custom-box">
+                <div class="custom-box-body">
+                    <h4>
+                        In BKash :
+                        <strong>22</strong>
+                    </h4>
+                    <h4>
+                        In Total : <strong>55 </strong>
+                    </h4>
+                </div>
+
+                <div class="custom-box-footer">
+                    <h3 class="text-center text-uppercase">today credit</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="custom-box">
+                <div class="custom-box-body">
+                    <h4>
+                        In BKASH :
+                        <strong>777</strong>
+                    </h4>
+
+                    <h4>
+                        In Total : <strong>777 </strong>
+                    </h4>
+                </div>
+
+                <div class="custom-box-footer">
+                    <h3 class="text-center text-uppercase">today debit</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="custom-box">
+                <div class="custom-box-body">
+                    <h4>
+                        In Nagad :
+                        <strong>888</strong>
+                    </h4>
+                    <h4>
+                        In Total <strong> 77777 </strong>
+                    </h4>
+                </div>
+
+                <div class="custom-box-footer">
+                    <h3 class="text-center text-uppercase">total balance</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+@endsection
+
+
+
+@section('css')
+
+    <style>
+        .person_counter {
+            padding-right: 5%;
+            color: #1d2671;
+        }
+
+        .box-gradiant {
+            background: -webkit-linear-gradient(to right, #c33764, #1d2671);
+            background: linear-gradient(to right, #c33764, #1d2671);
+        }
+
+        .sub_info {
+            font-size: 24px;
+            color: #fff;
+            margin-top: 0px;
+            position: absolute;
+            margin-left: 20px;
+        }
+
+        .money_icon {
+            font-size: 26px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 500;
+            font-family: 'Poppins';
+        }
+
+        :root {
+            --red: hsl(0, 78%, 62%);
+            --cyan: hsl(180, 62%, 55%);
+            --orange: hsl(34, 97%, 64%);
+            --blue: hsl(212, 86%, 64%);
+            --varyDarkBlue: hsl(234, 12%, 34%);
+            --grayishBlue: hsl(229, 6%, 66%);
+            --veryLightGray: hsl(0, 0%, 98%);
+            --weight1: 200;
+            --weight2: 400;
+            --weight3: 600;
+        }
+
+
+        .attribution {
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .attribution a {
+            color: hsl(228, 45%, 44%);
+        }
+
+        h1:first-of-type {
+            font-weight: var(--weight1);
+            color: var(--varyDarkBlue);
+        }
+
+        h1:last-of-type {
+            color: var(--varyDarkBlue);
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .boxs p {
+            color: var(--grayishBlue);
+        }
+
+        .boxs {
+            border-radius: 5px;
+            box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+            padding: 30px;
+            margin: 20px;
+        }
+
+        .d_img_icon {
+            margin-top: -75px;
+            float: right;
+            width: 60px;
+        }
+
+        @media (max-width: 450px) {
+            .boxs {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 950px) and (min-width: 450px) {
+            .boxs {
+                text-align: center;
+                height: 180px;
+            }
+        }
+
+        .cyan {
+            border-top: 3px solid var(--cyan);
+        }
+
+        .red {
+            border-top: 3px solid var(--red);
+        }
+
+        .blue {
+            border-top: 3px solid var(--blue);
+        }
+
+        .green {
+            border-top: 3px solid #1abc9c;
+        }
+
+        .orange {
+            border-top: 3px solid var(--orange);
+        }
+
+        @media (min-width: 950px) {
+            .row1-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .row2-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .boxs-down {
+                position: relative;
+                top: 150px;
+            }
+
+            .boxs {
+                width: 100%;
+                height: 150px;
+            }
+
+        }
+
+        .boxs {
+            border-radius: 5px;
+            box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+            padding: 30px;
+            margin: 20px;
+        }
+
+    </style>
 @endsection
