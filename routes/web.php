@@ -66,6 +66,7 @@ Auth::routes();
 Route::middleware(['web', 'auth'])->group(function () {
     /* Admin Routes start */
     Route::prefix("admin")->group(function () {
+        
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
         /* Category start */

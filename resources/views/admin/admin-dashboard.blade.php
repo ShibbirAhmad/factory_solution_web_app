@@ -63,7 +63,7 @@
         </div>
 
 
-          <div class="col-lg-4 col-md-4 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-xs-12">
             <div class="boxs green">
                 <h3>
                     <span class="person_counter">
@@ -115,35 +115,52 @@
         <div class="col-lg-4">
             <div class="custom-box">
                 <div class="custom-box-body">
+                    @php
+                        $today_credit_total = 0;
+                    @endphp
+                    @foreach ($accounts as $item)
+                        <h4>
+                            In {{ $item->name }} :
+                            <strong>{{ $item->today_credit_amount }}</strong>
+                        </h4>
+                        @php
+                            $today_credit_total += $item->today_credit_amount;
+                        @endphp
+                    @endforeach
+
                     <h4>
-                        In BKash :
-                        <strong>22</strong>
-                    </h4>
-                    <h4>
-                        In Total : <strong>55 </strong>
+                        In Total : <strong>{{ $today_credit_total }} </strong>
                     </h4>
                 </div>
 
                 <div class="custom-box-footer">
-                    <h3 class="text-center text-uppercase">today credit</h3>
+                    <h3 class="text-center text-white text-uppercase">today credit</h3>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="custom-box">
                 <div class="custom-box-body">
+                    @php
+                        $today_debit_total = 0;
+                    @endphp
+                    @foreach ($accounts as $item)
+                        <h4>
+                            In {{ $item->name }} :
+                            <strong>{{ $item->today_debit_amount }}</strong>
+                            @php
+                                $today_debit_total += $item->today_debit_amount;
+                            @endphp
+                        </h4>
+                    @endforeach
                     <h4>
-                        In BKASH :
-                        <strong>777</strong>
-                    </h4>
-
-                    <h4>
-                        In Total : <strong>777 </strong>
+                        In Total : <strong> {{ $today_debit_total }}
+                        </strong>
                     </h4>
                 </div>
 
                 <div class="custom-box-footer">
-                    <h3 class="text-center text-uppercase">today debit</h3>
+                    <h3 class="text-center text-white text-uppercase">today debit</h3>
                 </div>
             </div>
         </div>
@@ -151,17 +168,26 @@
         <div class="col-lg-4">
             <div class="custom-box">
                 <div class="custom-box-body">
+                    @php
+
+                        $in_total = 0;
+                    @endphp
+                    @foreach ($accounts as $item)
+                        <h4>
+                            In {{ $item->name }} :
+                            <strong>{{ $item->total_amount }}</strong>
+                            @php
+                                $in_total += $item->total_amount;
+                            @endphp
+                        </h4>
+                    @endforeach
                     <h4>
-                        In Nagad :
-                        <strong>888</strong>
-                    </h4>
-                    <h4>
-                        In Total <strong> 77777 </strong>
+                        In Total <strong> {{ $in_total }} </strong>
                     </h4>
                 </div>
 
                 <div class="custom-box-footer">
-                    <h3 class="text-center text-uppercase">total balance</h3>
+                    <h3 class="text-center text-white text-uppercase">total balance</h3>
                 </div>
             </div>
         </div>
@@ -174,6 +200,33 @@
 @section('css')
 
     <style>
+        .custom-box {
+            background: #fff;
+            padding: 13px;
+            min-height: 280px;
+            box-shadow: 3px 3px 3px #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .custom-box-body strong {
+            position: absolute;
+            right: 10%;
+            color: blue;
+        }
+
+        .custom-box-footer {
+            background: #00a65a;
+            color: #fff;
+        }
+
+        .custom-box-body>h4 {
+            cursor: pointer;
+            font-size: 20px;
+            font-family: inherit;
+            padding-top: 8px;
+        }
+
         .person_counter {
             padding-right: 5%;
             color: #1d2671;

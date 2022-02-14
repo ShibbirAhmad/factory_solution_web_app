@@ -42,7 +42,7 @@ class HomeController extends Controller
         $data['pending_production_amount'] = Order::where('is_closed',2)->where('user_id',auth()->id())->sum('total');
         $data['accounts'] = $this->balanceMethods();
 
-        return $data ;
+        // return $data ;
         return view('admin.admin-dashboard')->with($data);
 
     }
@@ -64,9 +64,9 @@ class HomeController extends Controller
 
     public function balanceMethods(){
 
-          $balances = PaymentMethod::get();
-          foreach ($balances as $item) {
-              $item->{'today_credit_amount'} = Cashbook::where('created_at','>=',Carbon::today()->startOfDay())
+       return  PaymentMethod::select('id','name','account_no','isBank')->get()->each(function($item) {
+
+               $item->{'today_credit_amount'} = Cashbook::where('created_at','>=',Carbon::today()->startOfDay())
                                                     ->where('created_at','<=',Carbon::today()->endOfDay())
                                                     ->where('user_id',auth()->id())->where('isExpense',0)->sum('amount');
 
@@ -75,8 +75,8 @@ class HomeController extends Controller
                                                     ->where('user_id',auth()->id())->where('isExpense',1)->sum('amount');
 
               $item->{'total_amount'} = self::totalBalanceOfMethod($item->id) ;
+          });
 
-          }
 
     }
 
