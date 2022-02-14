@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\Order\Task\TaskController;
 use App\Http\Controllers\Admin\Prototype\ProtoTypeController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AttributesController;
+use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\VariantController;
 
 Route::get('reboot', function () {
@@ -145,6 +146,17 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/destroy', [AttendanceController::class, 'destroy'])->name('destroy');
         });
         /* Attendance End  */
+
+        /* Salary start */
+        Route::prefix("salary")->name('salary.')->group(function () {
+            Route::get("/index", [SalaryController::class, 'index'])->name('index');
+            Route::get("/add", [SalaryController::class, 'add'])->name('add');
+            Route::post('/store', [SalaryController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [SalaryController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [SalaryController::class, 'update'])->name('update');
+            Route::post('/destroy', [SalaryController::class, 'destroy'])->name('destroy');
+        });
+        /* Salary End  */
 
         /* Payment Method start */
         Route::prefix('payment-method')->name('paymentMethod.')->group(function () {

@@ -27,6 +27,7 @@ class EmployeeUpdateRequest extends FormRequest
         return [
             'department_id'=>'required',
             'designation_id'=>'required',
+            'job_type'=>'required',
             'name'=>'required',
             'phone'=>'required|min:11',
             'nid'=>['nullable',Rule::unique('experts')->ignore($this->id)],
