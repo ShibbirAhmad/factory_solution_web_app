@@ -66,7 +66,7 @@
             <div id="flActionButtons" class="col-lg-12">
                 <div class="statbox widget box box-shadow  p-4">
                     <div class="widget-header">
-                        <div class="row">
+                        <div  v-if="purchase" class="row">
                             <div class="col-lg-12">
                                 <div v-if="purchase" class="info">
                                     <h4 style="background: #0e1726; color: white; margin-bottom: 10px"> Profile and Summary
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="table-responsive">
-                                    <table class="table table-hover table-bordered">
+                                    <table  class="table table-hover table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -110,6 +110,86 @@
                                                 <td>@{{ item . qty }}</td>
                                                 <td>@{{ item . price }}</td>
                                                 <td>@{{ parseInt(item . qty) * parseInt(item . price) }} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  v-if="sale" class="row">
+                            <div class="col-lg-12">
+                                <div v-if="sale" class="info">
+                                    <h4 style="background: #0e1726; color: white; margin-bottom: 10px"> Profile and Summary
+                                    </h4>
+                                    <p class="due-info">Name: <strong class="name">
+                                            @{{ sale . client . name }}</strong></p>
+                                    <p>Total: <strong class="total">@{{ sale . total }}</strong></p>
+                                    <p class="due-info">Phone: <strong class="phone">
+                                            @{{ sale . client . phone }}</strong></p>
+                                    <p>Paid: <strong class="paid"> @{{ sale . paid }}</strong></p>
+                                    <p class="due-info">Company: <strong class="email">
+                                            @{{ sale . client ? sale . client . company_name : '' }}</strong>
+                                    </p>
+                                    <p>Due: <strong class="balance">
+                                            @{{ parseInt(sale . total) - (parseInt(sale . paid) + parseInt(sale . discount)) }}</strong>
+                                    </p>
+                                    <p class="due-info">Note: <strong class="email">
+                                            @{{ sale . note ? sale . note : '' }}</strong> </p>
+                                    <p>Discount: <strong class="balance">
+                                            @{{ sale . discount }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table  class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Product</th>
+                                                <th>Variants</th>
+                                                <th>Qty</th>
+                                                <th>price </th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-if="sale_items" v-for="(item,item_index) in sale_items"
+                                                :key="item_index">
+                                                <td>@{{ item_index + 1 }}</td>
+
+                                                <td>
+                                                    <div>
+                                                        <img height="200" width="200" :src="item.product.image">
+                                                        <p> Name: @{{ item . product . name }} </p>
+                                                        <p> Code: @{{ item . product . code }} </p>
+                                                    </div>
+
+                                                </td>
+
+                                                <td colspan="4">
+                                                    <ul class="final_order_complition_list">
+
+                                                            <li v-for="(variant,v_index) in item.variants ">
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        @{{ variant.variant.name }}
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                       @{{ variant . qty }}
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        @{{ variant . price }}
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        @{{ parseInt(variant.qty) * parseInt(variant.price) }}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                    </ul>
+
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -139,10 +219,11 @@
                     due_type: '',
                     payment_method: '',
                     invoice_no: null,
-                    is_discount_payment: 0,
+                    is_discount_payment:0,
                     purchase: '',
                     is_purchase_due: true,
                     sale: '',
+                    sale_items: '',
                     transaction_id: null,
                     note: null,
                     paid_date: 0,
@@ -212,6 +293,8 @@
                                     this.purchase = response.data.purchase;
                                 }
                                 if (response.data.status == 'sale') {
+                                    this.sale = response.data.sale ;
+                                    this.sale_items = response.data.sale_items ;
                                     this.is_purchase_due = false;
                                 }
                             })

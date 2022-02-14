@@ -20,6 +20,7 @@ class CreateSalesTable extends Migration
             $table->string('invoice_no');
             $table->double('total')->comment('total sales amount');
             $table->double('paid')->default(0);
+            $table->integer('is_full_paid')->default(0)->comment(' 1 = full paid , 0 = not yet paid');
             $table->double('discount')->default(0);
             $table->unsignedBigInteger('created_by')->comment('sale created by ');
             $table->text('note')->comment('sale note or agreement ');
