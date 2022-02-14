@@ -14,7 +14,7 @@
                     On Going Production
                 </h3>
                 <h4>&#2547; {{ $on_going_production_amount }}</h4>
-                <a href="" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/hard-work.png') }}" />
             </div>
         </div>
@@ -28,7 +28,7 @@
                     Pending Production
                 </h3>
                 <h4>&#2547; {{ $pending_production_amount }}</h4>
-                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/schedule.png') }}" />
             </div>
         </div>
@@ -43,24 +43,11 @@
                     Completed Production
                 </h3>
                 <h4>&#2547; {{ $completed_production_amount }}</h4>
-                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/completed-task.png') }}" />
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-4 col-xs-12">
-            <div class="boxs green">
-                <h3>
-                    <span class="person_counter">
-                        {{ $completed_production }}
-                    </span>
-                    Completed Production
-                </h3>
-                <h4>&#2547; {{ $completed_production_amount }}</h4>
-                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/completed-task.png') }}" />
-            </div>
-        </div>
 
 
         <div class="col-lg-4 col-md-4 col-xs-12">
@@ -72,7 +59,7 @@
                     Total Suppliers & Due
                 </h3>
                 <h4>&#2547; {{ $total_supplier_due_amount->due_amount }}</h4>
-                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ route('supplier.index') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/target.png') }}" />
             </div>
         </div>
@@ -86,8 +73,8 @@
                     </span>
                     Total Clients & Due
                 </h3>
-                <h4>&#2547;{{ $total_client_due_amount->due_amount }}</h4>
-                <a href="#" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <h4>&#2547; {{ $total_client_due_amount->due_amount }}</h4>
+                <a href="{{ route('client.index') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/contact.png') }}" />
             </div>
         </div>
@@ -96,7 +83,18 @@
         <div class="col-lg-4 col-md-4 col-xs-12">
             <div class="boxs green">
                 <h3>
+                    Total Employees
+                </h3>
+                <h4>{{ $total_employee }}</h4>
+                <a href="{{ route('employee.add') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/group.png') }}" />
+            </div>
+        </div>
 
+
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="boxs green">
+                <h3>
                     Current Balance
                 </h3>
                 <h4>&#2547; {{ $current_balance }}</h4>
@@ -201,12 +199,11 @@
 
     <style>
         .custom-box {
-            background: #fff;
-            padding: 13px;
-            min-height: 280px;
-            box-shadow: 3px 3px 3px #ddd;
-            border-radius: 6px;
-            margin-bottom: 10px;
+            min-height: 230px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 40px -20px var(--varyDarkBlue);
+            padding: 10px;
+            margin: 5px;
         }
 
         .custom-box-body strong {
@@ -217,6 +214,7 @@
 
         .custom-box-footer {
             background: #00a65a;
+            padding:1px 0px;
             color: #fff;
         }
 
@@ -224,8 +222,14 @@
             cursor: pointer;
             font-size: 20px;
             font-family: inherit;
-            padding-top: 8px;
+            padding-top: 6px;
         }
+
+
+        .custom-box-footer>h3 {
+            padding-top: 5px;
+        }
+
 
         .person_counter {
             padding-right: 5%;
@@ -312,7 +316,7 @@
 
         @media (max-width: 450px) {
             .boxs {
-                height: 200px;
+                height: 150px;
             }
         }
 

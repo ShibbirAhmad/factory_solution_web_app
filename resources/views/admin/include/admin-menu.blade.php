@@ -22,6 +22,18 @@
 
 
             <li class="menu">
+                <a href="#cashbook" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <i class="fa fa-book fa-2x"></i>
+                        </div>
+                        <span>Cashbook</span>
+                    </div>
+                </a>
+            </li>
+
+
+            <li class="menu">
                 <a href="#app" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">

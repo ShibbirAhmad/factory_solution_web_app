@@ -154,4 +154,19 @@
     {{-- clients Sub Menu end --}}
 
 
+    {{-- cashbook Sub Menu start --}}
+    <div class="submenu" id="cashbook">
+        <ul class="submenu-list" data-parent-element="#app">
+            <li>
+                <a href="{{ route('cashbook_income') }}">  Incomes/Credits </a>
+            </li>
+            <li>
+                <a href="{{ route('cashbook_pay_off') }}"> Pay Off/Debits </a>
+            </li>
+        </ul>
+    </div>
+    {{-- cashbook Sub Menu end --}}
+
+
+
 </div>

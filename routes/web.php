@@ -66,8 +66,10 @@ Auth::routes();
 Route::middleware(['web', 'auth'])->group(function () {
     /* Admin Routes start */
     Route::prefix("admin")->group(function () {
-        
+
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+        Route::get('/cashbook/income', [App\Http\Controllers\HomeController::class, 'cashbookIncome'])->name('cashbook_income');
+        Route::get('/cashbook/pay-off', [App\Http\Controllers\HomeController::class, 'cashbookPayOff'])->name('cashbook_pay_off');
 
         /* Category start */
         Route::prefix("category")->name('category.')->group(function () {

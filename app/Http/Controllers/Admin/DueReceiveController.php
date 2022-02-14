@@ -53,7 +53,7 @@ class DueReceiveController extends Controller
            $purchase->is_full_paid= $purchase->total == $check_full_paid ? 1 : 0 ;
            $purchase->save();
            //storing in cashbook
-           CashBookService::paymentStore($data,1);
+           CashBookService::paymentStore($data,$purchase->invoice_no,1);
            DB::commit();
            return response()->json([
                'status' => 1,

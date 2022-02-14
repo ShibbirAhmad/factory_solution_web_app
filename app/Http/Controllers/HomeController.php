@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Client;
 use App\Models\Cashbook;
+use App\Models\Expert;
 use App\Models\PaymentMethod;
 use App\Models\Supplier;
 use App\Models\Warehouse;
@@ -30,6 +31,7 @@ class HomeController extends Controller
 
         $data['current_balance'] = self::cashbookCurrentBalance();
         $data['total_client'] = Client::where('user_id',auth()->id())->count();
+        $data['total_employee'] = Expert::where('user_id',auth()->id())->count();
         $data['total_client_due_amount'] = Client::where('user_id',auth()->id())->select(DB::raw('SUM(total_amount - total_paid) as due_amount'))->first();
         $data['total_supplier'] = Supplier::where('user_id',auth()->id())->count();
         $data['total_supplier_due_amount'] = Supplier::where('user_id',auth()->id())->select(DB::raw('SUM(total_amount - total_paid - total_discount) as due_amount'))->first();
@@ -94,6 +96,21 @@ class HomeController extends Controller
 
 
 
+
+
+    public static function cashbookIncome(){
+
+           $data['credits'] = Cashbook::where('user_id',auth()->id())->where('isExpense',0)->where('isDiscount',0)->orderByDesc('id')->paginate(30);
+           return view('admin.cashbook.income')->with($data);
+    }
+
+
+
+    public static function cashbookPayOff(){
+
+           $data['debits'] = Cashbook::where('user_id',auth()->id())->where('isExpense',1)->orderByDesc('id')->paginate(30);
+           return view('admin.cashbook.pay_off')->with($data);
+    }
 
 
 

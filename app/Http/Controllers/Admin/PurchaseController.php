@@ -78,6 +78,7 @@ class PurchaseController extends Controller
                 if ($data['payment_method'] && $data['paid'] > 0) {
                     $data['amount'] = $data['paid'] ;
                     $data['due_type'] = 'purchase' ;
+                    $data['is_discount_payment'] = 0 ;
                     CashBookService::paymentStore($data,$purchase->invoice_no,1) ;
                 }
                 DB::commit();

@@ -10,6 +10,7 @@ use App\Models\OrderVariant;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Models\WarehouseProduct;
+use App\Services\Log\LogTracker;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Services\Cashbook\CashBookService;
@@ -53,45 +54,54 @@ class SaleController extends Controller
     public function store(SaleStoreRequest $request)
     {
 
-        $data=$request->validated();
-        $data['user_id'] = auth()->id();
-        $data['invoice_no'] = ProductionSoftwareService::uniqueInvoiceNoMaker(3);
-        $data['created_by'] = auth()->id();
-        $sale=Sale::query()->create($data);
-        //inserting purchase items
-        foreach ($data['sale_items'] as $key => $item) {
+        DB::beginTransaction();
+        try {
+                $data=$request->validated();
+                $data['user_id'] = auth()->id();
+                $data['invoice_no'] = ProductionSoftwareService::uniqueInvoiceNoMaker(3);
+                $data['created_by'] = auth()->id();
+                $sale=Sale::query()->create($data);
+                //inserting purchase items
+                foreach ($data['sale_items'] as $key => $item) {
 
-            foreach($item['variants'] as $variant){
-                //save sale items according to variants
-                $s_item['sale_id'] = $sale->id ;
-                $s_item['product_id'] = $item['product_id'] ;
-                $s_item['price'] =  $item['price'] ;
-                $s_item['variant_id'] = $variant['id'] ;
-                $s_item['qty'] = $variant['qty'] ;
-                SaleItem::query()->create($s_item);
-                //update warehouse product stock
-                $p_variant = WarehouseProduct::where('warehouse_id',$data['warehouse_id'])->where('product_id',$item['product_id'])->where('variant_id',$variant['id'])->first();
-                $p_variant->stock = intval($p_variant->stock) - intval($variant['qty']) ;
-                $p_variant->save();
-            }
+                    foreach($item['variants'] as $variant){
+                        //save sale items according to variants
+                        $s_item['sale_id'] = $sale->id ;
+                        $s_item['product_id'] = $item['product_id'] ;
+                        $s_item['price'] =  $item['price'] ;
+                        $s_item['variant_id'] = $variant['id'] ;
+                        $s_item['qty'] = $variant['qty'] ;
+                        SaleItem::query()->create($s_item);
+                        //update warehouse product stock
+                        $p_variant = WarehouseProduct::where('warehouse_id',$data['warehouse_id'])->where('product_id',$item['product_id'])->where('variant_id',$variant['id'])->first();
+                        $p_variant->stock = intval($p_variant->stock) - intval($variant['qty']) ;
+                        $p_variant->save();
+                    }
 
+                }
+                //updating client records
+                $client=Client::findOrFail($data['client_id']);
+                $client->total_amount = intval( $client->total_amount) + intval($data['total']) ;
+                $client->total_paid = intval( $client->total_paid) + intval($data['paid']) ;
+                $client->save();
+                //storing cashbook of debit amount
+                if ($data['payment_method'] && $data['paid'] > 0) {
+                    $data['amount'] = $data['paid'] ;
+                    $data['due_type'] = 'sale';
+                    $data['is_discount_payment'] = 0 ;
+                    CashBookService::paymentStore($data,$sale->invoice_no,2) ;
+                }
+                DB::commit();
+                return response()->json([
+                    "status" => 1,
+                    "message" => "sale added successfully"
+                ]);
+        }catch (\Throwable $e) {
+
+                LogTracker::failLog($e,ProductionSoftwareService::merchantUserId());
+                DB::rollBack();
         }
-        //updating client records
-        $client=Client::findOrFail($data['client_id']);
-        $client->total_amount = intval( $client->total_amount) + intval($data['total']) ;
-        $client->total_paid = intval( $client->total_paid) + intval($data['paid']) ;
-        $client->save();
-        //storing cashbook of debit amount
-        if ($data['payment_method'] && $data['paid'] > 0) {
-            $data['amount'] = $data['paid'] ;
-            $data['due_type'] = 'sale';
-            CashBookService::paymentStore($data,$sale->invoice_no,2) ;
-        }
 
-        return response()->json([
-            "status" => 1,
-            "message" => "sale added successfully"
-        ]);
     }
 
     /**
@@ -102,8 +112,6 @@ class SaleController extends Controller
      */
     public function show($id)
     {
-
-
 
         $data['sale'] = Sale::with('items.product')->findOrFail($id);
         $data['sale_items'] = SaleItem::query()->where('sale_id',$data['sale']->id)
