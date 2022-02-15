@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <label class="control-label">Invoice</label>
-                            <input type="text" maxlength="10" v-on:keyup="searchInvoice" v-model="invoice_no"
+                            <input type="text" maxlength="20" v-on:keyup="searchInvoice" v-model="invoice_no"
                                 class="form-control" placeholder="Ex.123456">
                         </div>
                         <div class="form-group mb-2">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <label class="control-label">Paid</label>
-                            <input type="number" min="0" v-model="paid" class="form-control" placeholder="Ex.1000000">
+                            <input type="number" v-on:keyup="checkPaidAmount"   min="1" v-model="paid" class="form-control" placeholder="Ex.1000000">
                         </div>
                         <div class="form-group mb-2">
                             <label class="col-form-label">Is Discount Payment</label>
@@ -161,9 +161,9 @@
 
                                                 <td>
                                                     <div>
-                                                        <img height="200" width="200" :src="item.product.image">
-                                                        <p> Name: @{{ item . product . name }} </p>
-                                                        <p> Code: @{{ item . product . code }} </p>
+                                                        <img height="200" width="200" :src="img_base_url+'/'+item.variants[0].product.image">
+                                                        <p> Name: @{{ item.variants[0] . product . name }} </p>
+                                                        <p> Code: @{{ item.variants[0] . product . code }} </p>
                                                     </div>
 
                                                 </td>
@@ -212,6 +212,9 @@
 
 @section('script')
     <script>
+
+       window.due_receive_sale_img_base_url = {!! json_encode( \App\Helper\dynamicFileLink('product'),JSON_HEX_TAG)  !!}
+
         var app = new Vue({
             el: '#dueReceiveApp',
             data() {
@@ -228,8 +231,10 @@
                     note: null,
                     paid_date: 0,
                     paid: 0,
+                    total_payable_amount: 0,
                     attachments: '',
                     validation_check: true,
+                    img_base_url:window.due_receive_sale_img_base_url,
                 }
             },
             methods: {
@@ -251,6 +256,7 @@
                             .then((response) => {
                                 console.log(response);
                                 if (response.data.status == 1) {
+                                    this.total_payable_amount = 0;
                                     this.payment_method = '';
                                     this.paid = '';
                                     this.transaction_id = '';
@@ -277,6 +283,7 @@
                 async searchInvoice() {
                     if (!this.invoice_no) {
                         this.purchase = '';
+                        this.total_payable_amount= 0;
                     }
                     if (!this.due_type) {
                         return this.flashSwal('Please, select sales due receive or purchase due paid type');
@@ -291,9 +298,11 @@
                                 console.log(response);
                                 if (response.data.status == 'purchase') {
                                     this.purchase = response.data.purchase;
+                                    this.total_payable_amount = parseInt(response.data.purchase.total) - (parseInt(response.data.purchase.paid) + parseInt(response.data.purchase.discount)) ;
                                 }
                                 if (response.data.status == 'sale') {
                                     this.sale = response.data.sale ;
+                                    this.total_payable_amount = parseInt(response.data.sale.total) - (parseInt(response.data.sale.paid) + parseInt(response.data.sale.discount)) ;
                                     this.sale_items = response.data.sale_items ;
                                     this.is_purchase_due = false;
                                 }
@@ -308,6 +317,19 @@
                             });
                     }
                 },
+
+
+                checkPaidAmount(){
+
+                     let total = parseInt(this.total_payable_amount);
+                     let paid = parseInt(this.paid);
+                     if (paid > total) {
+                         this.flashSwal('paid amount is greater than total payable amount ');
+                         return this.paid = 0 ;
+                     }
+                },
+
+
 
                 validation() {
                     //invoice_no fields
@@ -335,13 +357,9 @@
                         this.flashSwal('please, payment date');
                         return;
                     }
-                    //checking price field
-                    if (this.is_discount_payment=='') {
-                        this.flashSwal('please, ensure it is discount payment or not ');
-                        return;
-                    }
                     this.validation_check = false;
                 },
+
                 flashSwal(message) {
                     Swal.fire({
                         icon: 'error',

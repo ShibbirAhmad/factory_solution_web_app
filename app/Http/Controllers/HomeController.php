@@ -68,11 +68,11 @@ class HomeController extends Controller
 
        return  PaymentMethod::select('id','name','account_no','isBank')->get()->each(function($item) {
 
-               $item->{'today_credit_amount'} = Cashbook::where('created_at','>=',Carbon::today()->startOfDay())
+               $item->{'today_credit_amount'} = Cashbook::where('payment_method_id',$item->id)->where('created_at','>=',Carbon::today()->startOfDay())
                                                     ->where('created_at','<=',Carbon::today()->endOfDay())
                                                     ->where('user_id',auth()->id())->where('isExpense',0)->sum('amount');
 
-              $item->{'today_debit_amount'} = Cashbook::where('created_at','>=',Carbon::today()->startOfDay())
+              $item->{'today_debit_amount'} = Cashbook::where('payment_method_id',$item->id)->where('created_at','>=',Carbon::today()->startOfDay())
                                                     ->where('created_at','<=',Carbon::today()->endOfDay())
                                                     ->where('user_id',auth()->id())->where('isExpense',1)->sum('amount');
 

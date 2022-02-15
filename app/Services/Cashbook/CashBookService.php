@@ -2,7 +2,6 @@
 
  namespace App\Services\Cashbook ;
 use App\Models\Sale;
-use App\Models\Order;
 use App\Models\Cashbook;
 use App\Models\Purchase;
 use App\Models\PaymentMethod;
@@ -19,7 +18,6 @@ use App\Services\ProductionSoftwareService;
             //the parameter invoice no is purchase/sale or other invoice_no
             //store_type 1 = purchase related store
             //store_type 2 = sale related store
-
 
             $payment_method=PaymentMethod::findOrFail($data['payment_method']);
             $data['invoice_no'] = ProductionSoftwareService::uniqueInvoiceNoMaker(1);

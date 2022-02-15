@@ -284,6 +284,7 @@
 
 @section('script')
     <script>
+        window.create_sale_img_base_url = {!! json_encode( \App\Helper\dynamicFileLink('product'),JSON_HEX_TAG)  !!}
         var app = new Vue({
             el: '#saleApp',
             data() {
@@ -301,7 +302,7 @@
                     paid: 0,
                     payment_method: '',
                     transaction_id: null,
-                    base_url: 'http://127.0.0.1:8000/storage/project_files/user2/product',
+                    base_url: window.create_sale_img_base_url,
                     validation_check: true,
                     submit_validation: true,
                     warehouse_id: '',

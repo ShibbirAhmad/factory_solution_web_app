@@ -30,18 +30,18 @@ class DueReceiveController extends Controller
     public function searchDue(Request $request){
 
           if ($request->due_type=='sale') {
-             $sale= Sale::where('user_id',auth()->id())->where('invoice_no',$request->invoice_no)->where('is_full_paid',0)->first();
-             $sale_items = SaleItem::query()->where('sale_id',$sale->id)
-                            ->select(DB::raw('product_id'))
-                            ->groupBy('product_id')
-                            ->get()->each(function($value){
-                            $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->get();
-                            });
-             return response()->json([
-                  'status' => 'sale',
-                  'sale' => $sale,
-                  'sale_items' => $sale_items,
-              ]);
+             $sale= Sale::where('user_id',auth()->id())->where('invoice_no',$request->invoice_no)->where('is_full_paid',0)->with('client')->first();
+             if (!empty($sale)) {
+                $sale_items = SaleItem::query()->where('sale_id',$sale->id)->select(DB::raw('product_id'))->groupBy('product_id')
+                                        ->get()->each(function($value){
+                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','product_id','price','qty')->with(['variant:id,name','product:id,name,code,image'])->get();
+                                });
+                return response()->json([
+                    'status' => 'sale',
+                    'sale' => $sale,
+                    'sale_items' => $sale_items,
+                ]);
+             }
 
             }else{
               $purchase=Purchase::where('user_id',ProductionSoftwareService::merchantUserId())
@@ -69,7 +69,7 @@ class DueReceiveController extends Controller
 
                 $sale=Sale::where('invoice_no',$request->invoice_no)->first();
                 $sale->paid= floatval($sale->paid) + floatval($data['amount']);
-                $check_full_paid= floatval($sale->total) -  (floatval($sale->paid) + floatval($sale->discount)) ;
+                $check_full_paid= intval($sale->total) -  (intval($sale->paid)  + intval($sale->discount)) ;
                 $sale->is_full_paid= $sale->total == $check_full_paid ? 1 : 0 ;
                 $sale->save();
                 $invoice_no=$sale->invoice_no ;
@@ -83,7 +83,7 @@ class DueReceiveController extends Controller
 
                 $purchase=Purchase::where('invoice_no',$request->invoice_no)->first();
                 $purchase->paid= floatval($purchase->paid) + floatval($data['amount']);
-                $check_full_paid= floatval($purchase->total) -  (floatval($purchase->paid) + floatval($purchase->discount)) ;
+                $check_full_paid= intval($purchase->total) -  (intval($purchase->paid) + intval($purchase->discount)) ;
                 $purchase->is_full_paid= $purchase->total == $check_full_paid ? 1 : 0 ;
                 $purchase->save();
                 $invoice_no=$purchase->invoice_no ;
