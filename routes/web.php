@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\AdminController;
@@ -17,20 +19,22 @@ use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SupplierController;
-use \App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\WarehouseController;
-use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\AttributesController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DueReceiveController;
 use App\Http\Controllers\Admin\DesignationController;
-use App\Http\Controllers\Admin\Order\OrderController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\SubDepartmentController;
+
+use App\Http\Controllers\Admin\Hr\EmployeeController;
+use App\Http\Controllers\Admin\Hr\AttendanceController;
+use App\Http\Controllers\Admin\Hr\SalaryController;
+
+use App\Http\Controllers\Admin\Order\OrderController;
 use App\Http\Controllers\Admin\Order\Task\TaskController;
 use App\Http\Controllers\Admin\Prototype\ProtoTypeController;
 use App\Http\Controllers\Admin\Order\Task\TaskReportController;
-use App\Http\Controllers\Admin\SalaryController;
 
 
 Route::get('reboot', function () {
@@ -69,9 +73,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     /* Admin Routes start */
     Route::prefix("admin")->group(function () {
 
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
-        Route::get('/cashbook/income', [App\Http\Controllers\HomeController::class, 'cashbookIncome'])->name('cashbook_income');
-        Route::get('/cashbook/pay-off', [App\Http\Controllers\HomeController::class, 'cashbookPayOff'])->name('cashbook_pay_off');
+        Route::get('/home', [HomeController::class, 'index'])->name('dashboard');
+        Route::get('/cashbook/income', [HomeController::class, 'cashbookIncome'])->name('cashbook_income');
+        Route::get('/cashbook/pay-off', [HomeController::class, 'cashbookPayOff'])->name('cashbook_pay_off');
 
         /* Category start */
         Route::prefix("category")->name('category.')->group(function () {
