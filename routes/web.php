@@ -155,6 +155,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/edit/{id}', [SalaryController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [SalaryController::class, 'update'])->name('update');
             Route::post('/destroy', [SalaryController::class, 'destroy'])->name('destroy');
+            Route::post('/api/store/salary', [SalaryController::class, 'paymentSalary'])->name('salary.payment');
+            Route::post('/api/search/employee', [SalaryController::class, 'searchEmployee'])->name('search.employee');
         });
         /* Salary End  */
 
