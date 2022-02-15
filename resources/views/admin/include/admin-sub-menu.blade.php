@@ -34,6 +34,8 @@
             <li>  <a href="{{ route('employee.add') }}"> Add/New Employee </a></li>
             <li>  <a href="{{ route('attendance.add') }}"> Daily Attendance </a></li>
             <li>  <a href="{{ route('salary.index') }}"> Salary </a></li>
+            <li>  <a href="{{ route('leave.add') }}"> Leave </a></li>
+            <li>  <a href="{{ route('leaveType.add') }}"> Leave Type </a></li>
         </ul>
     </div>
     {{-- Employee end --}}

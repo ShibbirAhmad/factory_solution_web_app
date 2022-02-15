@@ -15,7 +15,7 @@
                     <div class="widget-content widget-content-area">
                         <div class="form-group mb-2">
                             <label class="control-label">Select Employee </label>
-                            <select class="form-control" v-model="employee_id" v-on:keyup="searchEmployee" required>
+                            <select class="form-control" v-model="employee_id" v-on:onchange="searchEmployee" required>
                                 <option value="" disabled selected>Select Employee</option>
                                 @foreach ($present_employees as $employee)
                                     <option value="{{$employee->employee->id}}">{{$employee->employee->name}} | {{$employee->employee->phone}}</option>
@@ -23,20 +23,20 @@
                             </select>
                         </div>
 
-                        {{-- <div class="form-group mb-2">
+                        <div class="form-group mb-2">
                             <label class="control-label">Bonus</label>
                             <input type="number"
                                 class="form-control" v-model="bonus" id="bonus" placeholder="0">
-                        </div> --}}
+                        </div>
 
                         <div class="form-group mb-2">
-                            <label class="control-label">Fine Salary</label>
+                            <label class="control-label">Fine</label>
                             <input type="number"
                                 class="form-control" v-model="fine_salary" id="fine_salary" placeholder="0">
                         </div>
 
                         <div class="form-group mb-2">
-                            <label class="control-label">Total Salary</label>
+                            <label class="control-label">Total</label>
                             <input type="number"
                                 class="form-control" v-model="total_salary" id="total_salary" placeholder="0">
                         </div>
@@ -164,7 +164,6 @@
                 
                 async searchEmployee()
                 {
-                    console.log('test');
                     if (!this.employee_id) {
                         this.employee = '';
                     }

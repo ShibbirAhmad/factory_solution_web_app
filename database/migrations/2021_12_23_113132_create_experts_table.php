@@ -26,6 +26,7 @@ class CreateExpertsTable extends Migration
             $table->string('avatar')->nullable();
             $table->date('join_date')->nullable();
             $table->double('current_salary')->default(0);
+            $table->double('bonus')->default(0);
             $table->double('total_salary')->default(0);
             $table->double('total_fine')->default(0);
             $table->double('total_paid')->default(0);

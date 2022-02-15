@@ -29,6 +29,8 @@ use App\Http\Controllers\Admin\SubDepartmentController;
 
 use App\Http\Controllers\Admin\Hr\EmployeeController;
 use App\Http\Controllers\Admin\Hr\AttendanceController;
+use App\Http\Controllers\Admin\Hr\LeaveController;
+use App\Http\Controllers\Admin\Hr\LeaveTypeController;
 use App\Http\Controllers\Admin\Hr\SalaryController;
 
 use App\Http\Controllers\Admin\Order\OrderController;
@@ -170,6 +172,26 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/api/search/employee', [SalaryController::class, 'searchEmployee'])->name('search.employee');
         });
         /* Salary End  */
+
+        /* Leave start */
+        Route::prefix("leave")->name('leave.')->group(function () {
+            Route::get("/add", [LeaveController::class, 'index'])->name('add');
+            Route::post('/store', [LeaveController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [LeaveController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [LeaveController::class, 'update'])->name('update');
+            Route::post('/destroy', [LeaveController::class, 'destroy'])->name('destroy');
+        });
+        /* Leave end */
+
+        /* Leave Type start */
+        Route::prefix("leave-type")->name('leaveType.')->group(function () {
+            Route::get("/add", [LeaveTypeController::class, 'index'])->name('add');
+            Route::post('/store', [LeaveTypeController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [LeaveTypeController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [LeaveTypeController::class, 'update'])->name('update');
+            Route::get('/destroy/{id}', [LeaveTypeController::class, 'destroy'])->name('destroy');
+        });
+        /* Leave Type end */
 
         /* Payment Method start */
         Route::prefix('payment-method')->name('paymentMethod.')->group(function () {
