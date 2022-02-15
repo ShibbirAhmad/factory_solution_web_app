@@ -14,7 +14,7 @@
                     On Going Production
                 </h3>
                 {{-- <h4>&#2547; {{ $on_going_production_amount }}</h4> --}}
-                <h4></h4>
+                <br/>
                 <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/hard-work.png') }}" />
             </div>
@@ -29,7 +29,7 @@
                     Pending Production
                 </h3>
                 {{-- <h4>&#2547; {{ $pending_production_amount }}</h4> --}}
-                 <h4></h4>
+                 <br/>
                 <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/schedule.png') }}" />
             </div>
@@ -45,7 +45,7 @@
                     Completed Production
                 </h3>
                 {{-- <h4>&#2547; {{ $completed_production_amount }}</h4> --}}
-                <h4></h4>
+                <br/>
                 <a href="{{ route('order.list') }}" class="boxs-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 <img class="d_img_icon" src="{{ asset('storage/project_files/basic_img/completed-task.png') }}" />
             </div>
