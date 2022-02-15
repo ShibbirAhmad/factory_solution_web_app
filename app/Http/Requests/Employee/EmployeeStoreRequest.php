@@ -26,6 +26,7 @@ class EmployeeStoreRequest extends FormRequest
         return [
             'department_id'=>'required',
             'designation_id'=>'required',
+            'job_type'=>'required',
             'name'=>'required',
             'phone'=>'required|min:11',
             'nid'=>'nullable|unique:experts',

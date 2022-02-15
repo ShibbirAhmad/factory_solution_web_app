@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\SubDepartmentController;
 use App\Http\Controllers\Admin\Order\Task\TaskController;
 use App\Http\Controllers\Admin\Prototype\ProtoTypeController;
 use App\Http\Controllers\Admin\Order\Task\TaskReportController;
+use App\Http\Controllers\Admin\SalaryController;
+
 
 Route::get('reboot', function () {
     Artisan::call('config:clear');
@@ -151,6 +153,19 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/destroy', [AttendanceController::class, 'destroy'])->name('destroy');
         });
         /* Attendance End  */
+
+        /* Salary start */
+        Route::prefix("salary")->name('salary.')->group(function () {
+            Route::get("/index", [SalaryController::class, 'index'])->name('index');
+            Route::get("/add", [SalaryController::class, 'add'])->name('add');
+            Route::post('/store', [SalaryController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [SalaryController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [SalaryController::class, 'update'])->name('update');
+            Route::post('/destroy', [SalaryController::class, 'destroy'])->name('destroy');
+            Route::post('/api/store/salary', [SalaryController::class, 'paymentSalary'])->name('salary.payment');
+            Route::post('/api/search/employee', [SalaryController::class, 'searchEmployee'])->name('search.employee');
+        });
+        /* Salary End  */
 
         /* Payment Method start */
         Route::prefix('payment-method')->name('paymentMethod.')->group(function () {

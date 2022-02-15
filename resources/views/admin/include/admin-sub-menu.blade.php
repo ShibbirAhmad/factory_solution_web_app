@@ -31,8 +31,9 @@
     {{-- Employee start --}}
     <div class="submenu" id="hr">
         <ul class="submenu-list" data-parent-element="#app">
-            <li> <a href="{{ route('employee.add') }}"> Add/New Employee </a></li>
-            <li> <a href="{{ route('attendance.add') }}"> Daily Attendance </a></li>
+            <li>  <a href="{{ route('employee.add') }}"> Add/New Employee </a></li>
+            <li>  <a href="{{ route('attendance.add') }}"> Daily Attendance </a></li>
+            <li>  <a href="{{ route('salary.index') }}"> Salary </a></li>
         </ul>
     </div>
     {{-- Employee end --}}

@@ -12,6 +12,7 @@
                                         <th>Name</th>
                                         <th>Department</th>
                                         <th>Designation</th>
+                                        <th>Job Type</th>
                                         <th>Phone</th>
                                         <th>Join Date</th>
                                         <th>Salary</th>
@@ -33,6 +34,7 @@
                                         <td>{{ $employee_info->name }}</td>
                                         <td>{{ $employee_info->department ? $employee_info->department->name  : null}}</td>
                                         <td>{{ $employee_info->position ? $employee_info->position->name : null }}</td>
+                                        <td>{{ $employee_info->job_type }}</td>
                                         <td>{{ $employee_info->phone }}</td>
                                         <td>{{ $employee_info->join_date }}</td>
                                         <td>{{ $employee_info->current_salary }}</td>

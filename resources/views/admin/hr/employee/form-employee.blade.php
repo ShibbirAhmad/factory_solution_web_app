@@ -15,6 +15,24 @@
     @enderror
 </div>
 
+<div class="form-group mb-2">
+    <label class="control-label">Select Job Type </label>
+    <select class="form-control" name="job_type" id="job_type" required onchange="jobType()">
+        <option value="monthly" selected>Monthly</option>
+        <option value="hourly">Hourly</option>
+    </select>
+</div>
+
+<div class="form-group mb-2" id="monthly">
+    <label class="control-label">Monthly</label>
+    <input type="number" name="current_salary" id="current_salary" class="form-control" placeholder="monthly contactual">
+</div>
+
+<div class="form-group mb-2" style="display: none" id="hourly">
+    <label class="control-label">Hourly</label>
+    <input type="number"
+        class="form-control" name="current_salary" id="hourly" placeholder="per hour amount">
+</div>
 
 <div class="form-group mb-4">
     <label class="control-label">Name:</label>
@@ -51,14 +69,6 @@
 </div>
 
 <div class="form-group mb-4">
-    <label class="control-label">Salary</label>
-    {{ Form::number('current_salary', null,['class'=>'form-control','required','placeholder'=>'Ex. 10000']) }}
-    @error('current_salary')
-        <strong class="bg-danger text-white error">{{ $message }}</strong>
-    @enderror
-</div>
-
-<div class="form-group mb-4">
     <label class="control-label">Joining Date</label>
     {{ Form::date('join_date', null,['class'=>'form-control','required']) }}
     @error('join_date')
@@ -80,3 +90,18 @@
 {{ Form::button($button,['type'=>'submit','class'=>'btn btn-primary ml-3 mt-3']) }}
 
 <a href="{{ route('employee.add') }}" class="btn btn-danger  ml-3 mt-3"> <i class="fa fa-times-circle"></i> Cancel </a>
+
+@section('js')
+    <script>
+        function jobType() {
+            var jobtype = document.getElementById("job_type").value;
+            if(jobtype == 'monthly'){
+                document.getElementById("monthly").style.display = "block";
+                document.getElementById("hourly").style.display = "none";
+            }else{
+                document.getElementById("hourly").style.display = "block";
+                document.getElementById("monthly").style.display = "none";
+            }
+        }
+    </script>
+@endsection
