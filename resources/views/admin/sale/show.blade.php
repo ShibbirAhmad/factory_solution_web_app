@@ -1,5 +1,5 @@
 @extends('admin.layouts.admin')
-@section('title', 'Show sale')
+@section('title', 'sale details')
 @section('content')
     <div id="dueReceiveApp" class="row layout-top-spacing">
         <div class="col-lg-12">
@@ -59,59 +59,67 @@
                                                 <th>Amount </th>
                                             </tr>
                                         </thead>
-                                             <tbody>
-                                        @forelse($sale_items as $key=>$item)
-                                            @php
-                                                $product = \App\Models\Product::findOrFail($item->product_id);
-                                                $image = !empty($product->image) ? asset(\App\Helper\dynamicFileLink('product') . $product->image) : \App\Helper\noImage();
-                                            @endphp
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>
-                                                    <div>
-                                                        <img height="200" width="200" src="{{ $image }}">
-                                                        <p> Name: {{ $product->name }}</p>
-                                                        <p> Code: {{ $product->code }}</p>
-                                                    </div>
+                                        <tbody>
+                                            @forelse($sale_items as $key=>$item)
+                                                @php
+                                                    $product = \App\Models\Product::findOrFail($item->product_id);
+                                                    $image = !empty($product->image) ? asset(\App\Helper\dynamicFileLink('product') . $product->image) : \App\Helper\noImage();
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div>
+                                                            <img height="200" width="200" src="{{ $image }}">
+                                                            <p> Name: {{ $product->name }}</p>
+                                                            <p> Code: {{ $product->code }}</p>
+                                                        </div>
 
-                                                </td>
+                                                    </td>
 
-                                                <td colspan="4">
-                                                    <ul class="final_order_complition_list">
-                                                        @forelse ($item->variants as $v)
-                                                            <li>
-                                                                <div class="row">
-                                                                    <div class="col-lg-4">
-                                                                        {{ $v->variant->name }}
+                                                    <td colspan="4">
+                                                        <ul class="final_order_complition_list">
+                                                            @forelse ($item->variants as $v)
+                                                                <li>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4">
+                                                                            {{ $v->variant->name }}
+                                                                        </div>
+                                                                        <div class="col-lg-2">
+                                                                            {{ $v->qty }}
+                                                                        </div>
+                                                                        <div class="col-lg-3">
+                                                                            {{ $v->price }}
+                                                                        </div>
+                                                                        <div class="col-lg-2">
+                                                                            {{ $v->qty * $v->price }}
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-2">
-                                                                        {{ $v->qty }}
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        {{ $v->price }}
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        {{ $v->qty * $v->price }}
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @empty
-                                                        @endforelse
+                                                                </li>
+                                                            @empty
+                                                            @endforelse
 
-                                                    </ul>
+                                                        </ul>
 
-                                                </td>
-                                            </tr>
-                                        @empty
-                                        @endforelse
-                                    </tbody>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                            @endforelse
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <a class="btn btn-success" href="{{ route('sale.edit', $sale->id) }}"> <i
+                                        class="far fa-print fa-2x"></i> </a>
+                                <a class="btn btn-dark " href="{{ route('sale.index') }}"> <i
+                                        class="far fa-arrow-left fa-2x"></i> </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 @endsection

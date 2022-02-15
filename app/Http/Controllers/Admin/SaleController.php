@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Sale;
 use App\Models\Client;
 use App\Models\SaleItem;
+use Barryvdh\DomPDF\PDF;
 use App\Models\Warehouse;
 use App\Models\OrderVariant;
 use Illuminate\Http\Request;
@@ -123,6 +124,11 @@ class SaleController extends Controller
         return view('admin.sale.show')->with($data);
     }
 
+
+
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -131,7 +137,18 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        //
+            $data['sale'] = Sale::with('items.product')->findOrFail($id);
+            $data['sale_items'] = SaleItem::query()->where('sale_id',$data['sale']->id)
+                                        ->select(DB::raw('product_id'))
+                                        ->groupBy('product_id')
+                                        ->get()->each(function($value){
+                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->get();
+                                  });
+
+            $pdf = PDF::loadView('admin.pdf.sale_invoice',$data) ;
+            return $pdf->stream();
+
+
     }
 
     /**
