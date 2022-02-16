@@ -66,13 +66,17 @@
                                         <h4 style="background: #0e1726; color: white; margin-bottom: 10px"> Activity
                                             Summary
                                         </h4>
-                                        <p class="due-info">Name: <strong class="name">
-                                                @{{ employee.name }}</strong></p>
-                                        <p class="due-info">Phone: <strong class="phone">
-                                                @{{ employee.phone }}</strong></p>
-                                        <p>Current Salary: <strong class="total">@{{ employee.current_salary }}</strong>
-                                        </p>
-                                        <p>Paid: <strong class="paid"> @{{ employee.total_paid }}</strong></p>
+                                        <p class="due-info">Name: <strong class="name">  @{{ employee.name }}</strong></p>
+                                        <p class="due-info">Phone: <strong class="phone"> @{{ employee.phone }}</strong></p>
+                                        {{-- @if (employee.current_salary ==1)
+                                            <p>Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
+                                        @else
+                                            
+                                        @endif --}}
+                                        <p v-if="employee.job_type==1">Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
+                                        <p v-if="employee.job_type==2">Per Hour Value: <strong class="total">  @{{ employee.per_hour_salary }}</strong> </p>
+                                        
+                                        <p>Paid: <strong class="paid"> @{{ employee.employee.total_paid }}</strong></p>
                                         <p>Advance: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p>
                                     </div>
                                 </div>
@@ -102,7 +106,7 @@
                         total_salary: 0,
                         payment_method: '',
                         validation_check: true,
-                        employee: ''
+                        employee: '',
                     }
                 },
 

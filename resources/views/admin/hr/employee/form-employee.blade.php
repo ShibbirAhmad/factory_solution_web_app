@@ -36,6 +36,11 @@
         class="form-control" name="per_hour_salary" id="hourly" placeholder="per hour amount">
 </div>
 
+<div class="form-group mb-2" id="daily_working_hour">
+    <label class="control-label">Daily Working Hour</label>
+    <input type="number" name="daily_working_hour" id="daily_working_hour" class="form-control" placeholder="daily working hour">
+</div>
+
 <div class="form-group mb-4">
     <label class="control-label">Name:</label>
     {{ Form::text('name', null,['class'=>'form-control']) }}

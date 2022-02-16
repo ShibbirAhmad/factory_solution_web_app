@@ -18,6 +18,7 @@ class CreateExpertsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->string('job_type')->default(1)->comment('1=Full Time,2=Part Time,3=Contractual');
+            $table->integer('daily_working_hour')->default(0)->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

@@ -18,6 +18,7 @@
                                         <th>Salary</th>
                                         <th>Address</th>
                                         <th>Transaction <br> ( - = Advanced, <br> += Payable) </th>
+                                        <td>Status</td>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
@@ -57,6 +58,14 @@
                                         </td>
                                         <td>{{ $employee_info->address }}</td>
                                         <td>0</td>
+                                        <td>
+                                            @if ($employee_info->status == 1)
+                                                <a href="{{ route('employee.status',$employee_info->id) }}" class="btn btn-success" > Active </a>                                              
+                                            @else
+                                                <a href="{{ route('employee.status',$employee_info->id) }}" class="btn btn-info" > Inactive </a>                                                
+                                            @endif
+                                            {{-- {{$employee_info->status}} --}}
+                                        </td>
                                         <td>
                                             <a href="{{ route('employee.edit',$employee_info->id) }}" class="btn btn-success" > <i class="fa fa-edit fa-1x"></i> </a>
                                             <button class="btn btn-danger erase" data-url="{{ route('employee.destroy') }}" data-id="{{ $employee_info->id }}"> <i class="fa fa-trash-alt fa-1x"></i> </button>

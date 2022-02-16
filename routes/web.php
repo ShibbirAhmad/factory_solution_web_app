@@ -147,6 +147,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [EmployeeController::class, 'update'])->name('update');
             Route::post('/destroy', [EmployeeController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{id}', [EmployeeController::class, 'status'])->name('status');
         });
         /* Employee End  */
 
