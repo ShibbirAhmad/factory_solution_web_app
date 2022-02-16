@@ -11,6 +11,7 @@
                             <table class="table table-hover table-bordered" id="dataTable">
                                 <thead>
                                     <tr>
+                                        
                                         <th>SL</th>
                                         <th>Image</th>
                                         <th>Name</th>
@@ -43,7 +44,7 @@
                                             <td>{{$employee->employee->total_paid}}</td>
                                             <td>{{$due = $employee->employee->total_salary - $employee->employee->total_paid}}</td>
                                         </tr>
-                                    @endforeach 
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

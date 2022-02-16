@@ -10,11 +10,17 @@ use Illuminate\Http\Request;
 
 class LeaveTypeController extends Controller
 {
+
+
+
+    
     public function index()
     {
         $leaveTypes = LeaveType::all();
         return view('admin.hr.leave-type.index', compact('leaveTypes'));
     }
+
+
 
     public function store(Request $request)
     {
@@ -27,12 +33,17 @@ class LeaveTypeController extends Controller
         return redirect()->back();
     }
 
+
+
     public function edit($id)
     {
         $data['leave_type'] = LeaveType::query()->findOrFail($id);
         $data['leaveTypes'] = LeaveType::query()->orderBy('name')->get();
         return view('admin.hr.leave-type.edit')->with($data);
     }
+
+
+
 
     public function update(Request $request, $id)
     {
@@ -43,10 +54,16 @@ class LeaveTypeController extends Controller
         return redirect()->route('leaveType.add');
     }
 
+
+
+
     public function destroy($id)
     {
         $leave_type = LeaveType::findOrFail($id);
         $leave_type->delete();
         return redirect()->back();
     }
+
+
+
 }

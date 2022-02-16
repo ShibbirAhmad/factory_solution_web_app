@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class SalaryController extends Controller
 {
+
+
+
     public function index()
     {
         $present_employees = Attendance::select('*')->whereMonth('created_at', Carbon::now()->month)
@@ -20,6 +23,9 @@ class SalaryController extends Controller
                                                 ->get();
         return view('admin.hr.salary.index', compact('present_employees'));
     }
+
+
+
 
     public function add()
     {
@@ -31,6 +37,9 @@ class SalaryController extends Controller
         return view('admin.hr.salary.add', compact('present_employees', 'payment_methods'));
     }
 
+
+
+
     public function paymentSalary(Request $request)
     {
         $employee = Expert::where('id', $request->employee_id)->first();
@@ -40,6 +49,9 @@ class SalaryController extends Controller
         $employee->save();
     }
 
+
+
+
     public function searchEmployee(Request $request)
     {
         $search_employee = Expert::where('id', $request->employee_id)->first();
@@ -48,4 +60,9 @@ class SalaryController extends Controller
             'search_employee' => $search_employee,
         ]);
     }
+
+
+
+
+
 }
