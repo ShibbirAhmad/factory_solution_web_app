@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="form-group mb-2">
-                                <label class="control-label">Payment Type </label>
+                                <label class="control-label">Account Debit From  </label>
                                 <select class="form-control" v-model="payment_method" name="payment_method" required>
                                     <option value="" disabled selected>Select Payment Method</option>
                                     @foreach ($payment_methods as $payment_method)

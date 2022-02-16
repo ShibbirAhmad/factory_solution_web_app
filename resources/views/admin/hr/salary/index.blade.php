@@ -29,21 +29,21 @@
                                     @foreach ($experts as $key=>$employee)
                                         @php
                                             $total_working_day = App\Models\Attendance::whereMonth('in_datetime', \Carbon\Carbon::now()->month)->where('user_expert_id',$employee->user_expert_id)->count();
-                                            $image = !empty($employee->employee->avatar) ? \App\Helper\dynamicFileLink('employee').$employee->employee->avatar : asset('project_files/404.jpg')
+                                            $image = !empty($employee->avatar) ? \App\Helper\dynamicFileLink('employee').$employee->avatar : asset('project_files/404.jpg')
                                         @endphp
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td><img src="{{ $image }}" width="80" height="80" alt=""></td>
                                             <td>
-                                                {{$employee->employee->name}}</td>
-                                            <td>{{$employee->employee->job_type}}</td>
-                                            <td>{{$employee->employee->phone}}</td>
+                                                {{$employee->name}}</td>
+                                            <td>{{$employee->job_type}}</td>
+                                            <td>{{$employee->phone}}</td>
                                             <td>{{$total_working_day}}</td>
                                             <td>Hour</td>
                                             <td>Over Time</td>
-                                            <td>{{$employee->employee->total_salary}}</td>
-                                            <td>{{$employee->employee->total_paid}}</td>
-                                            <td>{{$due = $employee->employee->total_salary - $employee->employee->total_paid}}</td>
+                                            <td>{{$employee->total_salary}}</td>
+                                            <td>{{$employee->total_paid}}</td>
+                                            <td>{{$due = $employee->total_salary - $employee->total_paid}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
