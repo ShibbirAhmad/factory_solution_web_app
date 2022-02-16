@@ -12,4 +12,16 @@ class ExpertLeave extends Model
     {
         return $this->belongsTo(Expert::class);
     }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(LeaveType::class, 'leave_type');
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    
 }

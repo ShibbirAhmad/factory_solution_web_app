@@ -177,9 +177,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::prefix("leave")->name('leave.')->group(function () {
             Route::get("/add", [LeaveController::class, 'index'])->name('add');
             Route::post('/store', [LeaveController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [LeaveController::class, 'edit'])->name('edit');
-            Route::post('/update/{id}', [LeaveController::class, 'update'])->name('update');
-            Route::post('/destroy', [LeaveController::class, 'destroy'])->name('destroy');
+            Route::get('/destroy/{id}', [LeaveController::class, 'destroy'])->name('destroy');
         });
         /* Leave end */
 

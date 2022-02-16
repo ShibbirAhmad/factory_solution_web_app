@@ -25,16 +25,16 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label class="control-label"> Start Date & Time:</label>
-                                <input type="datetime-local" name="start_datetime" class="form-control" placeholder="YYYY/dd/MM">
+                                <input type="datetime-local" id="start_datetime" name="start_datetime" class="form-control" placeholder="YYYY/dd/MM">
                             </div>
 
                             <div class="form-group mb-2">
                                 <label class="control-label"> End Date & Time:</label>
-                                <input type="datetime-local" name="end_datetime" class="form-control" placeholder="YYYY/dd/MM">
+                                <input type="datetime-local" id="end_datetime" name="end_datetime" class="form-control" placeholder="YYYY/dd/MM">
                             </div>
                             <div class="form-group mb-2">
                                 <label class="control-label">Days</label>
-                                <input type="number" name="days"  class="form-control" placeholder="days">
+                                <input type="number" name="days" id="days" class="form-control" placeholder="days" readonly>
                             </div>
 
                             <div class="form-group mb-2">
@@ -90,12 +90,24 @@
                                                     <td>{{$leave->expert->name}}</td>
                                                     <td>{{$leave->start_datetime}}</td>
                                                     <td>{{$leave->end_datetime}}</td>
-                                                    <td>{{$leave->days}}</td>
-                                                    <td>{{$leave->leave_type}}</td>
-                                                    <td>{{$leave->approved_by}}</td>
-                                                    <td>{{$leave->status}}</td>
+                                                    {{-- <td>{{$leave->days}}</td> --}}
+                                                    <td>
+                                                        @php
+                                                            $start = !empty($leave->start_datetime) ? \Carbon\Carbon::parse($leave->start_datetime) : null ;
+                                                            $end = !empty($leave->end_datetime) ? \Carbon\Carbon::parse($leave->end_datetime) : null ;
+                                                            $difference = $start->diff($end);
+                                                        @endphp
+                                                        {{$difference->d}}
+                                                    </td>
+                                                    <td>{{$leave->leaveType->name}}</td>
+                                                    
+                                                    <td>{{$leave->user->name}}</td>
+                                                     @if ($leave->status == 1)
+                                                        <td>Paid Leave</td> 
+                                                    @else
+                                                        <td>Unpaid Leave</td> 
+                                                    @endif
                                                      <td>
-                                                        <a href="{{ route('leave.edit',$leave->id) }}" class="btn btn-success" > <i class="fa fa-edit fa-1x"></i> </a>
                                                         <a href="{{ route('leave.destroy',$leave->id) }}" class="btn btn-danger erase" > <i class="fa fa-trash-alt fa-1x"></i> </a>
                                                     </td>
                                                 </tr>
@@ -112,4 +124,23 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $("body").on('click',function() {
+                
+                var start_datetime = $('#start_datetime').val();
+                var end_datetime = $('#end_datetime').val();
+                var start = new Date(start_datetime);
+                var end = new Date(end_datetime);
+                var diffDate = (end - start) / (1000 * 60 * 60 * 24);
+                var days = Math.round(diffDate);
+                document.getElementById('days').value = days ;
+            }) ;
+        });
+
+    </script>
+@endsection
+
 

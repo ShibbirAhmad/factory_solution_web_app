@@ -36,21 +36,21 @@ class LeaveController extends Controller
         return redirect()->back();
     }
 
-    public function edit($id)
-    {
-        $data['leave'] = ExpertLeave::query()->findOrFail($id);
-        $data['expert_leaves'] = ExpertLeave::query()->orderBy('name')->get();
-        return view('admin.hr.leave-type.edit')->with($data);
-    }
+    // public function edit($id)
+    // {
+    //     $data['leave'] = ExpertLeave::query()->findOrFail($id);
+    //     $data['expert_leaves'] = ExpertLeave::query()->orderBy('name')->get();
+    //     return view('admin.hr.leave-type.edit')->with($data);
+    // }
 
-    public function update(Request $request, $id)
-    {
-        $leave_type = ExpertLeave::findOrFail($id);
-        $leave_type->name = $request->name;
-        $leave_type->update();
-        session()->flash('success', 'Successfully Leave Type Updated.');
-        return redirect()->route('leaveType.add');
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     $leave_type = ExpertLeave::findOrFail($id);
+    //     $leave_type->name = $request->name;
+    //     $leave_type->update();
+    //     session()->flash('success', 'Successfully Leave Type Updated.');
+    //     return redirect()->route('leaveType.add');
+    // }
 
     public function destroy($id)
     {
