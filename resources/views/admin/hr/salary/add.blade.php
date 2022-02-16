@@ -75,7 +75,7 @@
                                         @endif --}}
                                         <p v-if="employee.job_type==1">Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
                                         <p v-if="employee.job_type==2">Per Hour Value: <strong class="total">  @{{ employee.per_hour_salary }}</strong> </p>
-                                        <p>Total Present: <strong class="paid"> @{{ present_days }}</strong></p>
+                                        
                                         <p>Paid: <strong class="paid"> @{{ employee.employee.total_paid }}</strong></p>
                                         <p>Advance: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p>
                                     </div>
@@ -107,7 +107,6 @@
                         payment_method: '',
                         validation_check: true,
                         employee: '',
-                        present_days: 0,
                     }
                 },
 
@@ -156,7 +155,6 @@
                                 console.log(response);
                                 if (response.data.status == 1) {
                                     this.employee = response.data.employee;
-                                    this.present_days = response.data.present_days;
                                 }
                             })
 

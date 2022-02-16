@@ -9,7 +9,7 @@ class Expert extends Model
 {
     use HasFactory;
     protected $table='experts';
-    protected $fillable = ['user_id', 'department_id','designation_id', 'job_type', 'name', 'email', 'phone', 'nid', 'address', 'avatar', 'join_date', 'current_salary', 'per_hour_salary', 'total_salary', 'total_fine', 'total_paid', 'status', 'created_by'];
+    protected $fillable = ['user_id', 'department_id','designation_id', 'job_type', 'daily_working_hour', 'name', 'email', 'phone', 'nid', 'address', 'avatar', 'join_date', 'current_salary', 'per_hour_salary', 'total_salary', 'total_fine', 'total_paid', 'status', 'created_by'];
 
     public function user(){
         return $this->belongsTo(User::class);

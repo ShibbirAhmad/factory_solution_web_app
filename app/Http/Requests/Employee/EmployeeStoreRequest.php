@@ -27,6 +27,7 @@ class EmployeeStoreRequest extends FormRequest
             'department_id'=>'required',
             'designation_id'=>'required',
             'job_type'=>'required',
+            'daily_working_hour'=>'nullable',
             'name'=>'required',
             'phone'=>'required|min:11',
             'nid'=>'nullable|unique:experts',
