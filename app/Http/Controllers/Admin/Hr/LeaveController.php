@@ -27,7 +27,11 @@ class LeaveController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'name' => 'required',
+            'expert_id' => 'required',
+            'start_datetime' => 'required',
+            'end_datetime' => 'required',
+            'days' => 'required',
+            'leave_type' => 'required',
         ]);
         $leave = new ExpertLeave();
         $leave->expert_id = $request->expert_id;
