@@ -31,7 +31,8 @@ class EmployeeStoreRequest extends FormRequest
             'phone'=>'required|min:11',
             'nid'=>'nullable|unique:experts',
             'avatar'=>'nullable|image|mimes:jpg,jpeg,png,gif',
-            'current_salary'=>'required',
+            'current_salary'=>'nullable',
+            'per_hour_salary'=> 'nullable',
             'join_date'=>'required',
             'address'=>'required',
         ];

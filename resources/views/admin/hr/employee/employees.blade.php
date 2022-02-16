@@ -34,10 +34,27 @@
                                         <td>{{ $employee_info->name }}</td>
                                         <td>{{ $employee_info->department ? $employee_info->department->name  : null}}</td>
                                         <td>{{ $employee_info->position ? $employee_info->position->name : null }}</td>
-                                        <td>{{ $employee_info->job_type }}</td>
+                                        <td>
+                                            @if ($employee_info->job_type == 1)
+                                                Fulltime
+                                            @elseif($employee_info->job_type == 2)
+                                                Part Time
+                                            @elseif($employee_info->job_type == 3)
+                                                Contractual
+                                            @endif
+                                        </td>
                                         <td>{{ $employee_info->phone }}</td>
                                         <td>{{ $employee_info->join_date }}</td>
-                                        <td>{{ $employee_info->current_salary }}</td>
+                                        <td>
+                                            @if ($employee_info->job_type == 1)
+                                                {{ $employee_info->current_salary }}
+                                            @elseif($employee_info->job_type == 2)
+                                                {{ $employee_info->per_hour_salary }}
+                                            @elseif($employee_info->job_type == 3)
+                                                Company Policy
+                                            @endif
+                                            {{-- {{ $employee_info->current_salary }} --}}
+                                        </td>
                                         <td>{{ $employee_info->address }}</td>
                                         <td>0</td>
                                         <td>

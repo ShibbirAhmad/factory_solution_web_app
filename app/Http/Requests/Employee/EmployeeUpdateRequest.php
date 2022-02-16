@@ -33,7 +33,8 @@ class EmployeeUpdateRequest extends FormRequest
             'nid'=>['nullable',Rule::unique('experts')->ignore($this->id)],
             'avatar' => 'nullable',
             'avatar.*' => 'image|mimes:jpg,png',
-            'current_salary'=>'required',
+            'current_salary'=>'nullable',
+            'per_hour_salary'=> 'nullable',
             'join_date'=>'required',
             'address'=>'required',
         ];

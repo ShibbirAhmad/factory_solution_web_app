@@ -34,7 +34,8 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td><img src="{{ $image }}" width="80" height="80" alt=""></td>
-                                            <td>{{$employee->employee->name}}</td>
+                                            <td>
+                                                {{$employee->employee->name}}</td>
                                             <td>{{$employee->employee->job_type}}</td>
                                             <td>{{$employee->employee->phone}}</td>
                                             <td>{{$total_working_day}}</td>
