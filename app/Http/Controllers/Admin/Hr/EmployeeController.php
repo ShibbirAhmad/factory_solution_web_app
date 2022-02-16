@@ -76,4 +76,18 @@ class EmployeeController extends Controller
             return response()->json(['success' => 'Data Deleted', 'code' => 200]);
         }
     }
+
+
+    public function status($id)
+    {
+        $user = Expert::findOrFail($id);
+        if ($user->status == 1) {
+            $user->status = 0;
+            $user->save();
+        } else {
+            $user->status = 1;
+            $user->save();
+        }
+        return redirect()->back();
+    }
 }

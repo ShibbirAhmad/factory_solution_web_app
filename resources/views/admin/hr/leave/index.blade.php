@@ -22,19 +22,31 @@
                                         <option value="{{$employee->id}}">{{$employee->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('expert_id')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
                             <div class="form-group mb-2">
                                 <label class="control-label"> Start Date & Time:</label>
                                 <input type="datetime-local" id="start_datetime" name="start_datetime" class="form-control" placeholder="YYYY/dd/MM">
+                                @error('start_datetime')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
 
                             <div class="form-group mb-2">
                                 <label class="control-label"> End Date & Time:</label>
                                 <input type="datetime-local" id="end_datetime" name="end_datetime" class="form-control" placeholder="YYYY/dd/MM">
+                                @error('end_datetime')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
                             <div class="form-group mb-2">
                                 <label class="control-label">Days</label>
                                 <input type="number" name="days" id="days" class="form-control" placeholder="days" readonly>
+                                @error('days')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
 
                             <div class="form-group mb-2">
@@ -44,6 +56,9 @@
                                         <option value="{{$leave_type->id}}">{{$leave_type->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('leave_type')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
 
                             <div class="form-group mb-2">
@@ -52,6 +67,9 @@
                                     <option value="1">Paid</option>
                                     <option value="2">Unpaid</option>
                                 </select>
+                                @error('status')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
 
                             <button v-on:click="submitPayment" type="submit" class="btn btn-primary ml-3 mt-3">Save Leave</button>

@@ -27,6 +27,7 @@ class LeaveController extends Controller
             'end_datetime' => 'required',
             'days' => 'required',
             'leave_type' => 'required',
+            'status' => 'required',
         ]);
         $leave = new ExpertLeave();
         $leave->expert_id = $request->expert_id;

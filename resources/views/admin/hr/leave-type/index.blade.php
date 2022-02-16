@@ -17,7 +17,10 @@
                             @csrf
                             <div class="form-group mb-2">
                                 <label class="control-label">Name</label>
-                                <input type="text" name="name"  class="form-control" placeholder="sick">
+                                <input type="text" name="name"  class="form-control" placeholder="ex. sick">
+                                @error('name')
+                                    <strong class="bg-danger text-white error">{{ $message }}</strong>
+                                @enderror
                             </div>
                             <button v-on:click="submitPayment" type="submit" class="btn btn-primary ml-3 mt-3">Save Leave Type</button>
                         </form>
