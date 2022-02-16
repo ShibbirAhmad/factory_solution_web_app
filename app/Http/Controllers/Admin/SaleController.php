@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Sale;
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\SaleItem;
 use App\Models\Warehouse;
 use App\Models\OrderVariant;
@@ -118,10 +119,16 @@ class SaleController extends Controller
                             ->select(DB::raw('product_id'))
                             ->groupBy('product_id')
                             ->get()->each(function($value){
+                            $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
                             $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->get();
                             });
         return view('admin.sale.show')->with($data);
     }
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -131,7 +138,18 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        //
+            $data['sale'] = Sale::with('items.product')->with('client','createdBy')->findOrFail($id);
+            $data['sale_items'] = SaleItem::query()->where('sale_id',$data['sale']->id)
+                                        ->select(DB::raw('product_id'))
+                                        ->groupBy('product_id')
+                                        ->get()->each(function($value){
+                                        $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
+                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->with(['variant:id,name'])->get();
+                                  });
+
+             return view('admin.pdf.sale_invoice')->with($data);
+
+
     }
 
     /**

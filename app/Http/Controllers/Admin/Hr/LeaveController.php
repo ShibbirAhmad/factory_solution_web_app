@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LeaveController extends Controller
 {
+
+
     public function index()
     {
         $employees = Expert::all();
@@ -18,6 +20,9 @@ class LeaveController extends Controller
         $expert_leaves = ExpertLeave::all();
         return view('admin.hr.leave.index', compact('employees', 'leave_types', 'expert_leaves'));
     }
+
+
+
 
     public function store(Request $request)
     {
@@ -40,6 +45,7 @@ class LeaveController extends Controller
         return redirect()->back();
     }
 
+
     // public function edit($id)
     // {
     //     $data['leave'] = ExpertLeave::query()->findOrFail($id);
@@ -56,10 +62,16 @@ class LeaveController extends Controller
     //     return redirect()->route('leaveType.add');
     // }
 
+
+    
+
     public function destroy($id)
     {
         $leave_type = ExpertLeave::findOrFail($id);
         $leave_type->delete();
         return redirect()->back();
     }
+
+
+
 }
