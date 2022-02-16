@@ -18,20 +18,22 @@
 <div class="form-group mb-2">
     <label class="control-label">Select Job Type </label>
     <select class="form-control" name="job_type" id="job_type" required onchange="jobType()">
-        <option value="monthly" selected>Monthly</option>
-        <option value="hourly">Hourly</option>
+        <option selected disabled>Select Job  Type</option>
+        <option value="1">Full Time</option>
+        <option value="2">Part Time</option>
+        <option value="3">contractual</option>
     </select>
 </div>
 
-<div class="form-group mb-2" id="monthly">
-    <label class="control-label">Monthly</label>
-    <input type="number" name="current_salary" id="current_salary" class="form-control" placeholder="monthly contactual">
+<div class="form-group mb-2" style="display: none" id="monthly">
+    <label class="control-label">Full Time</label>
+    <input type="number" name="current_salary" id="current_salary" class="form-control" placeholder="monthly salary">
 </div>
 
 <div class="form-group mb-2" style="display: none" id="hourly">
-    <label class="control-label">Hourly</label>
+    <label class="control-label">Part Time</label>
     <input type="number"
-        class="form-control" name="current_salary" id="hourly" placeholder="per hour amount">
+        class="form-control" name="per_hour_salary" id="hourly" placeholder="per hour amount">
 </div>
 
 <div class="form-group mb-4">
@@ -95,11 +97,14 @@
     <script>
         function jobType() {
             var jobtype = document.getElementById("job_type").value;
-            if(jobtype == 'monthly'){
+            if(jobtype == '1'){
                 document.getElementById("monthly").style.display = "block";
                 document.getElementById("hourly").style.display = "none";
-            }else{
+            }else if(jobtype == '2'){
                 document.getElementById("hourly").style.display = "block";
+                document.getElementById("monthly").style.display = "none";
+            }else{
+                document.getElementById("hourly").style.display = "none";
                 document.getElementById("monthly").style.display = "none";
             }
         }
