@@ -14,11 +14,11 @@ class SalaryController extends Controller
 {
     public function index()
     {
-        $total_employees = Attendance::select('*')->whereMonth('created_at', Carbon::now()->month)
+        $present_employees = Attendance::select('*')->whereMonth('created_at', Carbon::now()->month)
                                                 ->select('user_expert_id', DB::raw('count(*) as total'))
                                                 ->groupBy('user_expert_id')
                                                 ->get();
-        return view('admin.hr.salary.index', compact('total_employees'));
+        return view('admin.hr.salary.index', compact('present_employees'));
     }
 
     public function add()
