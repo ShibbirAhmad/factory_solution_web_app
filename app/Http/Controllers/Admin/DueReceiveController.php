@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Sale;
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\SaleItem;
 use App\Models\Supplier;
@@ -34,8 +35,9 @@ class DueReceiveController extends Controller
              if (!empty($sale)) {
                 $sale_items = SaleItem::query()->where('sale_id',$sale->id)->select(DB::raw('product_id'))->groupBy('product_id')
                                         ->get()->each(function($value){
-                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','product_id','price','qty')->with(['variant:id,name','product:id,name,code,image'])->get();
-                                });
+                                           $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
+                                           $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','product_id','price','qty')->with(['variant:id,name'])->get();
+                                        });
                 return response()->json([
                     'status' => 'sale',
                     'sale' => $sale,

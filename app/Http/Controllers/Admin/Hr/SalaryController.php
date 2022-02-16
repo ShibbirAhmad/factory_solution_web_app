@@ -12,24 +12,27 @@ use Illuminate\Support\Facades\DB;
 
 class SalaryController extends Controller
 {
+
+
+
     public function index()
     {
-        $present_employees = Attendance::select('*')->whereMonth('created_at', Carbon::now()->month)
-                                                ->select('user_expert_id', DB::raw('count(*) as total'))
-                                                ->groupBy('user_expert_id')
-                                                ->get();
-        return view('admin.hr.salary.index', compact('present_employees'));
+        $experts = Expert::where('user_id',auth()->id())->where('status',1)->get();
+        return view('admin.hr.salary.index', compact('experts'));
     }
+
+
+
 
     public function add()
     {
-        $present_employees = Attendance::select('*')->whereMonth('created_at', Carbon::now()->month)
-                                                ->select('user_expert_id', DB::raw('count(*) as total'))
-                                                ->groupBy('user_expert_id')
-                                                ->get();
+        $experts = Expert::where('user_id',auth()->id())->where('status',1)->get();
         $payment_methods = PaymentMethod::all();
-        return view('admin.hr.salary.add', compact('present_employees', 'payment_methods'));
+        return view('admin.hr.salary.add', compact('experts', 'payment_methods'));
     }
+
+
+
 
     public function paymentSalary(Request $request)
     {
@@ -40,12 +43,21 @@ class SalaryController extends Controller
         $employee->save();
     }
 
-    public function searchEmployee(Request $request)
+
+
+
+    public function expertSalaryReportPreview($id)
     {
-        $search_employee = Expert::where('id', $request->employee_id)->first();
+        $employee = Expert::where('id', $id)->first();
+        
         return response()->json([
-            'status' => 'search', //purchase status
-            'search_employee' => $search_employee,
+            'status' => 1, //purchase status
+            'employee' => $employee,
         ]);
     }
+
+
+
+
+
 }

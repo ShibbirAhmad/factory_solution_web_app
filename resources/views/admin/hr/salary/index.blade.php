@@ -11,6 +11,7 @@
                             <table class="table table-hover table-bordered" id="dataTable">
                                 <thead>
                                     <tr>
+
                                         <th>SL</th>
                                         <th>Image</th>
                                         <th>Name</th>
@@ -25,7 +26,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($present_employees as $key=>$employee)
+                                    @foreach ($experts as $key=>$employee)
                                         @php
                                             $total_working_day = App\Models\Attendance::whereMonth('in_datetime', \Carbon\Carbon::now()->month)->where('user_expert_id',$employee->user_expert_id)->count();
                                             $image = !empty($employee->employee->avatar) ? \App\Helper\dynamicFileLink('employee').$employee->employee->avatar : asset('project_files/404.jpg')
@@ -44,7 +45,7 @@
                                             <td>{{$employee->employee->total_paid}}</td>
                                             <td>{{$due = $employee->employee->total_salary - $employee->employee->total_paid}}</td>
                                         </tr>
-                                    @endforeach 
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -161,9 +161,9 @@
 
                                                 <td>
                                                     <div>
-                                                        <img height="200" width="200" :src="img_base_url+'/'+item.variants[0].product.image">
-                                                        <p> Name: @{{ item.variants[0] . product . name }} </p>
-                                                        <p> Code: @{{ item.variants[0] . product . code }} </p>
+                                                        <img height="200" width="200" :src="img_base_url+'/'+item.product.image">
+                                                        <p> Name: @{{ item.product . name }} </p>
+                                                        <p> Code: @{{ item.product . code }} </p>
                                                     </div>
 
                                                 </td>

@@ -32,6 +32,7 @@ class WarehouseController extends Controller
                                   ->select(DB::raw('product_id,warehouse_id'))
                                   ->groupBy('product_id','warehouse_id')
                                   ->get()->each(function($value){
+                                    $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
                                     $value->{'variants'} = WarehouseProduct::where('warehouse_id',$value->warehouse_id)->where('product_id',$value->product_id)->select('variant_id','stock')->get();
                                   });
 
