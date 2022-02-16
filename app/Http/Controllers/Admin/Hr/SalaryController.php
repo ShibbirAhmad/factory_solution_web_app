@@ -49,9 +49,8 @@ class SalaryController extends Controller
     public function expertSalaryReportPreview($id)
     {
         $employee = Expert::where('id', $id)->first();
-        
         return response()->json([
-            'status' => 1, //purchase status
+            'status' => 1, 
             'employee' => $employee,
         ]);
     }
