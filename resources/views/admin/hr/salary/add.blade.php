@@ -68,16 +68,18 @@
                                         </h4>
                                         <p class="due-info">Name: <strong class="name">  @{{ employee.name }}</strong></p>
                                         <p class="due-info">Phone: <strong class="phone"> @{{ employee.phone }}</strong></p>
-                                        {{-- @if (employee.current_salary ==1)
-                                            <p>Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
-                                        @else
-                                            
-                                        @endif --}}
+                                        <p class="due-info">Total Paid Leave: <strong class="paid"> @{{ employee.total_paid_leave }}</strong></p>
+                                        <p class="due-info">Total Absent: <strong class="paid"> @{{ employee.total_absent }}</strong></p>
+                                        <p class="due-info">Total Overtime: <strong class="paid"> @{{ employee.total_overtime }}</strong></p>
                                         <p v-if="employee.job_type==1">Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
                                         <p v-if="employee.job_type==2">Per Hour Value: <strong class="total">  @{{ employee.per_hour_salary }}</strong> </p>
                                         
-                                        <p>Paid: <strong class="paid"> @{{ employee.employee.total_paid }}</strong></p>
-                                        <p>Advance: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p>
+                                        <p>Total Present: <strong class="paid"> @{{ employee.total_present }}</strong></p>
+                                        <p>Daily Working Hour: <strong class="paid"> @{{ employee.daily_working_hour }}</strong></p>
+                                        <p>Total Working Hour: <strong class="paid"> @{{ employee.total_hour }}</strong></p>
+                                        <p>Job Type: <strong class="paid"> @{{ employee.job_type }}</strong></p>
+                                        
+                                        {{-- <p>Total Working Hour: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p> --}}
                                     </div>
                                 </div>
 
@@ -96,6 +98,18 @@
 
     @section('script')
         <script>
+            $(document).ready(function() {
+                $("body").on('keyup change',function() {
+                    var bonus = $('#bonus').val();
+                    var fine_salary = $('#fine_salary').val();
+                    var payable_amount = 15000;
+                    var total_salary = parseInt(payable_amount) + parseInt(bonus) - parseInt(fine_salary);
+                    document.getElementById('total_salary').value = total_salary ;
+                }) ;
+            });
+
+        </script>
+        <script>
             var app = new Vue({
                 el: '#salaryAPP',
                 data() {
@@ -107,6 +121,7 @@
                         payment_method: '',
                         validation_check: true,
                         employee: '',
+                        payable_amount: ''
                     }
                 },
 
@@ -118,7 +133,6 @@
                         const data = {
                             expert_id: this.expert_id,
                             bonus: this.bonus,
-                            advanced_salary: this.advanced_salary,
                             fine_salary: this.fine_salary,
                             total_salary: this.total_salary,
                             payment_method: this.payment_method,
@@ -126,7 +140,7 @@
                         if (this.validation_check == false) {
                             await axios.post('/admin/salary/api/store/salary', data)
                                 .then((response) => {
-                                    this.expert_id = '',
+                                        this.expert_id = '',
                                         this.bonus = '',
                                         this.fine_salary = '',
                                         this.total_salary = '',

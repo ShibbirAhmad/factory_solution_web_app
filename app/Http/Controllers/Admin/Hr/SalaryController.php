@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Expert;
 use App\Models\ExpertLeave;
+use App\Models\ExpertSalary;
 use App\Models\PaymentMethod;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -61,11 +62,12 @@ class SalaryController extends Controller
 
     public function paymentSalary(Request $request)
     {
-        $employee = Expert::where('id', $request->employee_id)->first();
+        return $request->all();
+        // $employee = Expert::where('id', $request->employee_id)->first();
         // $employee->bonus = $request->bonus;
-        $employee->total_fine = $request->fine_salary;
-        $employee->total_salary = $request->total_salary;
-        $employee->save();
+        // $employee->total_fine = $request->fine_salary;
+        // $employee->total_salary = $request->total_salary;
+        // $employee->save();
     }
 
 
@@ -85,6 +87,16 @@ class SalaryController extends Controller
             'status' => 1,
             'employee' => $expert,
         ]);
+    }
+
+    public function viewSalary($id)
+    {
+        $expert = Expert::findOrFail($id);
+        $view_profile = ExpertSalary::where('expert_id', $expert->id)->first();
+        $total_amount = ExpertSalary::where('expert_id', $expert->id)->sum('amount');
+        $bonus = ExpertSalary::where('expert_id', $expert->id)->sum('bonus');
+        $fine = ExpertSalary::where('expert_id', $expert->id)->sum('fine');
+        return view('admin.hr.salary.view-salary', compact('view_profile', 'total_amount', 'bonus', 'fine'));
     }
 
 

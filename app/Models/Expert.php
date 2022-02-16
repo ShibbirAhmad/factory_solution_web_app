@@ -22,5 +22,8 @@ class Expert extends Model
     public function position(){
         return $this->belongsTo(Designation::class,'designation_id');
     }
-
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
+    }
 }

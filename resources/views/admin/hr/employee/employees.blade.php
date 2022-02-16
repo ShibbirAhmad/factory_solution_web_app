@@ -69,6 +69,8 @@
                                         <td>
                                             <a href="{{ route('employee.edit',$employee_info->id) }}" class="btn btn-success" > <i class="fa fa-edit fa-1x"></i> </a>
                                             <button class="btn btn-danger erase" data-url="{{ route('employee.destroy') }}" data-id="{{ $employee_info->id }}"> <i class="fa fa-trash-alt fa-1x"></i> </button>
+                                            <a href="{{ route('salary.view',$employee_info->id) }}" class="btn btn-success" > <i class="fa fa-eye"></i> </a>
+
                                         </td>
                                     </tr>
                                 @empty
