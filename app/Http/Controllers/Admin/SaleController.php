@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Sale;
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\SaleItem;
-use Barryvdh\DomPDF\PDF;
 use App\Models\Warehouse;
 use App\Models\OrderVariant;
 use Illuminate\Http\Request;
@@ -119,6 +119,7 @@ class SaleController extends Controller
                             ->select(DB::raw('product_id'))
                             ->groupBy('product_id')
                             ->get()->each(function($value){
+                            $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
                             $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->get();
                             });
         return view('admin.sale.show')->with($data);
@@ -137,16 +138,16 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-            $data['sale'] = Sale::with('items.product')->findOrFail($id);
+            $data['sale'] = Sale::with('items.product')->with('client','createdBy')->findOrFail($id);
             $data['sale_items'] = SaleItem::query()->where('sale_id',$data['sale']->id)
                                         ->select(DB::raw('product_id'))
                                         ->groupBy('product_id')
                                         ->get()->each(function($value){
-                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->get();
+                                        $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
+                                        $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->with(['variant:id,name'])->get();
                                   });
 
-            $pdf = PDF::loadView('admin.pdf.sale_invoice',$data) ;
-            return $pdf->stream();
+             return view('admin.pdf.sale_invoice')->with($data);
 
 
     }

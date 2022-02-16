@@ -62,16 +62,15 @@
                                         <tbody>
                                             @forelse($sale_items as $key=>$item)
                                                 @php
-                                                    $product = \App\Models\Product::findOrFail($item->product_id);
-                                                    $image = !empty($product->image) ? asset(\App\Helper\dynamicFileLink('product') . $product->image) : \App\Helper\noImage();
+                                                    $image = !empty($item->product->image) ? asset(\App\Helper\dynamicFileLink('product') . $item->product->image) : \App\Helper\noImage();
                                                 @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
                                                         <div>
                                                             <img height="200" width="200" src="{{ $image }}">
-                                                            <p> Name: {{ $product->name }}</p>
-                                                            <p> Code: {{ $product->code }}</p>
+                                                            <p> Name: {{ $item->product->name }}</p>
+                                                            <p> Code: {{ $item->product->code }}</p>
                                                         </div>
 
                                                     </td>
