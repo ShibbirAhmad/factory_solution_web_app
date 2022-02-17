@@ -18,6 +18,7 @@ use App\Services\ProductionSoftwareService;
             //the parameter invoice no is purchase/sale or other invoice_no
             //store_type 1 = purchase related store
             //store_type 2 = sale related store
+            //store_type 3 = salary related store
 
             $payment_method=PaymentMethod::findOrFail($data['payment_method']);
             $data['invoice_no'] = ProductionSoftwareService::uniqueInvoiceNoMaker(1);
@@ -34,22 +35,20 @@ use App\Services\ProductionSoftwareService;
 
                   $purchase=Purchase::where('invoice_no',$invoice_no)->first();
                   $data['purchase_id'] = $purchase->id  ?? null;
-                  $data['order_id'] = null ;
-                  $data['sale_id'] = null ;
-                  $data['client_id'] = null ;
                   $data['supplier_id'] = $purchase->supplier_id ?? null ;
                   Cashbook::query()->create($data);
 
            }else if ($store_type==2){
 
                   $sale=Sale::where('invoice_no',$invoice_no)->first();
-                  $data['purchase_id'] =  null;
-                  $data['order_id'] = null ;
                   $data['sale_id'] = $sale->id ;
                   $data['client_id'] = $sale->client_id ;
-                  $data['supplier_id'] = null ;
                   Cashbook::query()->create($data);
 
+           }else if($store_type==3){
+
+                  $data['is_salary_payment'] = 1 ;
+                  Cashbook::query()->create($data);  
            }
 
            return ;

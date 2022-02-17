@@ -7,8 +7,8 @@
                 <a href="{{route('salary.add')}}" class="btn btn-info"> <i class="fa fa-left-arrow"></i> Back </a>
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="boxs blue">
-                            <img class="d_img_icon" src="" height="80" width="80" />
+                        <div class="">
+                            <img class="rounded-circle" src="" height="80" width="80" />
                             <p>Name: {{$view_profile->expert->name}} </p>
                             <p>Designation: {{$view_profile->expert->designation->name}} </p>
                             <p>Phone: {{$view_profile->expert->phone}}</p>
@@ -16,10 +16,14 @@
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="boxs blue">
-                            <p>Total Taken Amount: {{$total_amount}} </p>
-                            <p>Total Paid Amount: {{$bonus}} </p>
-                            <p>Fine: {{$fine}}</p>
+                        <div class="custom-box p-3 mb-2" style="background: #F2F2F5;">
+                            <strong>Total Taken Amount: {{$total_amount}}</strong>
+                        </div>
+                        <div class="custom box p-2 mb-2" style="background: #F2F2F5;">
+                            <strong>Total Paid Amount: {{$bonus}} </strong>       
+                        </div>
+                        <div class="custom box p-2" style="background: #F2F2F5;">
+                            <strong>Fine: {{$fine}}</strong>
                         </div>
                     </div>
 
@@ -28,14 +32,21 @@
                             <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Date</th>
-                                        <th>Comment</th>
                                         <th>Amount</th>
-                                        <th>Job Type</th>
+                                        <th>Comment</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+                                    @foreach ($expert_salary as $key=>$salary)
+                                        <tr>
+                                            <td>{{$key + 1}}</td>
+                                            <td>{{ $salary->created_at}}</td>
+                                            <td>{{$salary->amount}}</td>
+                                            <td>{{$salary->comment}}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -46,4 +57,5 @@
     </div>
 
 @endsection
+
 
