@@ -12,6 +12,7 @@ use App\Services\Cashbook\CashBookService;
 use App\Services\Log\LogTracker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalaryController extends Controller
@@ -64,11 +65,12 @@ class SalaryController extends Controller
 
     public function paymentSalary(Request $request)
     {
-        $data=[$request->validate(),
-            'amount' => 'required|min:1',
-            'payment_method' => 'required',
-            'expert_id' => 'required',
-        ];
+        // return $request->all();
+        $data = $request->validate([
+                'amount' => 'required',
+                'payment_method' => 'required',
+                'expert_id' => 'required',
+            ]);
        
         try {
 
@@ -86,6 +88,7 @@ class SalaryController extends Controller
             $expert_salary->fine = $request->fine;
             $expert_salary->amount = $request->amount;
             $expert_salary->payment_method_id = $request->payment_method;
+            $expert_salary->comment = $request->comment;
             $expert_salary->save();
             
             //storing in cashbook
@@ -101,14 +104,14 @@ class SalaryController extends Controller
            
         } catch (\Throwable $e) {
             DB::rollBack();
-            LogTracker::failLog($e,auth()->id);
+            LogTracker::failLog($e,Auth::user()->id);
             return response()->json([
                 'status' => 0,
                 'message' => 'salary paid failed'
             ]);
         }
        
-
+        
         
     }
 
@@ -138,7 +141,7 @@ class SalaryController extends Controller
         $total_amount = ExpertSalary::where('expert_id', $expert->id)->sum('amount');
         $bonus = ExpertSalary::where('expert_id', $expert->id)->sum('bonus');
         $fine = ExpertSalary::where('expert_id', $expert->id)->sum('fine');
-        $expert_salary = ExpertSalary::all();
+        $expert_salary = ExpertSalary::where('expert_id', $expert->id)->get();
         return view('admin.hr.salary.view-salary', compact('view_profile', 'total_amount', 'bonus', 'fine', 'expert_salary'));
     }
 

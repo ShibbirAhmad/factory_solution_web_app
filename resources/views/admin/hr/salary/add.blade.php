@@ -58,6 +58,13 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group mb-2">
+                                <label class="control-label">Comment</label>
+                                <input type="text" class="form-control" v-model="comment" 
+                                    placeholder="comment">
+                            </div>
+                            
                             <button v-on:click="salaryPayment" type="submit" class="btn btn-primary ml-3 mt-3">Save Payment
                                 Info</button>
                         </div>
@@ -120,6 +127,7 @@
                         employee: '',
                         current_salary: 0,
                         per_hour_salary: 0,
+                        comment: '',
                     }
                 },
 
@@ -135,6 +143,7 @@
                             fine: this.fine,
                             amount: this.total,
                             payment_method: this.payment_method,
+                            comment: this.comment
                         }
                         if (this.validation_check == false) {
                             await axios.post('/admin/salary/api/store/salary', data)

@@ -18,7 +18,7 @@ use App\Services\ProductionSoftwareService;
             //the parameter invoice no is purchase/sale or other invoice_no
             //store_type 1 = purchase related store
             //store_type 2 = sale related store
-            //store_type 3 = salary related store
+            //store_type 3 = expert salary related store
 
             $payment_method=PaymentMethod::findOrFail($data['payment_method']);
             $data['invoice_no'] = ProductionSoftwareService::uniqueInvoiceNoMaker(1);
