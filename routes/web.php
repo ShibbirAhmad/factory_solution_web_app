@@ -171,6 +171,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/destroy', [SalaryController::class, 'destroy'])->name('destroy');
             Route::post('/api/store/salary', [SalaryController::class, 'paymentSalary'])->name('salary.payment');
             Route::get('/api/search/expert/{id}', [SalaryController::class, 'expertSalaryReportPreview']);
+            Route::get('/salary/view/{id}', [SalaryController::class, 'viewSalary'])->name('view');
         });
         /* Salary End  */
 

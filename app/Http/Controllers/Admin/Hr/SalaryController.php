@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Expert;
 use App\Models\ExpertLeave;
+use App\Models\ExpertSalary;
 use App\Models\PaymentMethod;
+use App\Services\Cashbook\CashBookService;
+use App\Services\Log\LogTracker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalaryController extends Controller
@@ -61,11 +65,54 @@ class SalaryController extends Controller
 
     public function paymentSalary(Request $request)
     {
-        $employee = Expert::where('id', $request->employee_id)->first();
-        // $employee->bonus = $request->bonus;
-        $employee->total_fine = $request->fine_salary;
-        $employee->total_salary = $request->total_salary;
-        $employee->save();
+        // return $request->all();
+        $data = $request->validate([
+                'amount' => 'required',
+                'payment_method' => 'required',
+                'expert_id' => 'required',
+            ]);
+       
+        try {
+
+            DB::beginTransaction();
+            $invoice_no = '';
+            $expert = Expert::findOrFail($request->expert_id);
+            $expert->total_bonus = intval($expert->total_bonus) + intval($request->bonus) ;
+            $expert->total_fine = intval($expert->total_fine) + intval($request->fine);
+            $expert->total_salary = intval($expert->total_salary) + intval($request->amount);
+            $expert->save();
+            //
+            $expert_salary = new ExpertSalary();
+            $expert_salary->expert_id = $expert->id;
+            $expert_salary->bonus = $request->bonus;
+            $expert_salary->fine = $request->fine;
+            $expert_salary->amount = $request->amount;
+            $expert_salary->payment_method_id = $request->payment_method;
+            $expert_salary->comment = $request->comment;
+            $expert_salary->save();
+            
+            //storing in cashbook
+            $data['amount'] = $data['amount'] ;
+            $data['due_type'] = 'purchase';
+            $data['is_discount_payment'] = 0 ;
+            CashBookService::paymentStore($data, $invoice_no,3);
+            DB::commit();
+            return response()->json([
+                'status' => 1,
+                'message' => 'salary paid successful'
+            ]);
+           
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            LogTracker::failLog($e,Auth::user()->id);
+            return response()->json([
+                'status' => 0,
+                'message' => 'salary paid failed'
+            ]);
+        }
+       
+        
+        
     }
 
 
@@ -85,6 +132,17 @@ class SalaryController extends Controller
             'status' => 1,
             'employee' => $expert,
         ]);
+    }
+
+    public function viewSalary($id)
+    {
+        $expert = Expert::findOrFail($id);
+        $view_profile = ExpertSalary::where('expert_id', $expert->id)->first();
+        $total_amount = ExpertSalary::where('expert_id', $expert->id)->sum('amount');
+        $bonus = ExpertSalary::where('expert_id', $expert->id)->sum('bonus');
+        $fine = ExpertSalary::where('expert_id', $expert->id)->sum('fine');
+        $expert_salary = ExpertSalary::where('expert_id', $expert->id)->get();
+        return view('admin.hr.salary.view-salary', compact('view_profile', 'total_amount', 'bonus', 'fine', 'expert_salary'));
     }
 
 

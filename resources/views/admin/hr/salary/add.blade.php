@@ -26,30 +26,45 @@
 
                             <div class="form-group mb-2">
                                 <label class="control-label">Bonus</label>
-                                <input type="number" class="form-control" v-model="bonus" id="bonus" placeholder="0">
+                                <input type="number" class="form-control" v-on:keyup="calculateTotalAmount" v-model="bonus"  placeholder="0">
                             </div>
 
                             <div class="form-group mb-2">
                                 <label class="control-label">Fine</label>
-                                <input type="number" class="form-control" v-model="fine_salary" id="fine_salary"
+                                <input type="number" class="form-control"  v-on:keyup="calculateTotalAmount"   v-model="fine" 
                                     placeholder="0">
                             </div>
 
+
+
+                            <div class="form-group mb-2">
+                                <label class="control-label">Amount</label>
+                                <input type="number" class="form-control" v-model="amount" 
+                                    placeholder="0">
+                            </div>         
+
                             <div class="form-group mb-2">
                                 <label class="control-label">Total</label>
-                                <input type="number" class="form-control" v-model="total_salary" id="total_salary"
+                                <input type="number" readonly class="form-control" v-model="total" 
                                     placeholder="0">
                             </div>
 
                             <div class="form-group mb-2">
                                 <label class="control-label">Account Debit From  </label>
-                                <select class="form-control" v-model="payment_method" name="payment_method" required>
+                                <select class="form-control" v-model="payment_method">
                                     <option value="" disabled selected>Select Payment Method</option>
                                     @foreach ($payment_methods as $payment_method)
                                         <option value="{{ $payment_method->id }}">{{ $payment_method->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group mb-2">
+                                <label class="control-label">Comment</label>
+                                <input type="text" class="form-control" v-model="comment" 
+                                    placeholder="comment">
+                            </div>
+                            
                             <button v-on:click="salaryPayment" type="submit" class="btn btn-primary ml-3 mt-3">Save Payment
                                 Info</button>
                         </div>
@@ -68,16 +83,17 @@
                                         </h4>
                                         <p class="due-info">Name: <strong class="name">  @{{ employee.name }}</strong></p>
                                         <p class="due-info">Phone: <strong class="phone"> @{{ employee.phone }}</strong></p>
-                                        {{-- @if (employee.current_salary ==1)
-                                            <p>Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
-                                        @else
-                                            
-                                        @endif --}}
+                                        <p class="due-info">Paid Leave: <strong class="paid"> @{{ employee.total_paid_leave }}</strong></p>
+                                        <p class="due-info">Absent: <strong class="paid"> @{{ employee.total_absent }}</strong></p>
+                                        <p class="due-info">Overtime: <strong class="paid"> @{{ employee.total_overtime }}</strong></p>
                                         <p v-if="employee.job_type==1">Current Salary: <strong class="total">  @{{ employee.current_salary }}</strong> </p>
                                         <p v-if="employee.job_type==2">Per Hour Value: <strong class="total">  @{{ employee.per_hour_salary }}</strong> </p>
                                         
-                                        <p>Paid: <strong class="paid"> @{{ employee.employee.total_paid }}</strong></p>
-                                        <p>Advance: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p>
+                                        <p>Present: <strong class="paid"> @{{ employee.total_present }}</strong></p>
+                                        <p>Daily Working Hour: <strong class="paid"> @{{ employee.daily_working_hour }}</strong></p>
+                                        <p>Working Hour: <strong class="paid"> @{{ employee.total_hour }}</strong></p>
+                                        <p>Job Type: <strong class="paid"> @{{ employee.job_type }}</strong></p>
+                                        {{-- <p>Total Working Hour: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p> --}}
                                     </div>
                                 </div>
 
@@ -95,6 +111,7 @@
     @endsection
 
     @section('script')
+
         <script>
             var app = new Vue({
                 el: '#salaryAPP',
@@ -102,42 +119,45 @@
                     return {
                         expert_id: '',
                         bonus: 0,
-                        fine_salary: 0,
-                        total_salary: 0,
+                        fine: 0,
+                        amount: 0,
+                        total: 0,
                         payment_method: '',
                         validation_check: true,
                         employee: '',
+                        current_salary: 0,
+                        per_hour_salary: 0,
+                        comment: '',
                     }
                 },
 
 
                 methods: {
 
+
                     async salaryPayment() {
                         this.validation();
                         const data = {
                             expert_id: this.expert_id,
                             bonus: this.bonus,
-                            advanced_salary: this.advanced_salary,
-                            fine_salary: this.fine_salary,
-                            total_salary: this.total_salary,
+                            fine: this.fine,
+                            amount: this.total,
                             payment_method: this.payment_method,
+                            comment: this.comment
                         }
                         if (this.validation_check == false) {
                             await axios.post('/admin/salary/api/store/salary', data)
                                 .then((response) => {
-                                    this.expert_id = '',
-                                        this.bonus = '',
-                                        this.fine_salary = '',
-                                        this.total_salary = '',
-                                        this.payment_method = ''
-                                    this.flashSwal(response.data.message);
-                                    setTimeout(() => {
-                                        location.reload();
-                                    }, 1000);
+                                    console.log(response);
+                                    if (response.data.status == 1) {
+                                        this.flashSwal(response.data.message);
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 1000);
+                                    }
                                 })
                                 .catch(function(error) {
-                                    onsole.log(error.response.data);
+                                    console.log(error.response.data);
                                     Swal.fire({
                                         icon: 'error',
                                         title: error.response.data.message,
@@ -145,6 +165,18 @@
                                     })
                                 });
                         }
+                    },
+
+
+
+                    calculateTotalAmount(){
+
+                        let f= this.fine.length  <=  0 ? 0 :  parseInt(this.fine);
+                        let b = this.bonus.length  <=  0 ? 0 :  parseInt(this.bonus);
+                        let pay = this.amount.length  <= 0 ?  0 : parseInt(this.amount);
+                        return this.total = (b + pay ) - f ;
+                        
+                         
                     },
 
                     async selectEmployee() {
@@ -155,6 +187,13 @@
                                 console.log(response);
                                 if (response.data.status == 1) {
                                     this.employee = response.data.employee;
+                                    if (response.data.employee.job_type != 3) {
+                                          this.amount= response.data.employee.current_salary > 0 ? response.data.employee.current_salary : response.data.employee.per_hour_salary 
+                                    }else{
+                                           this.amount=0 ;
+                                    }
+                                    this.calculateTotalAmount();
+                                  
                                 }
                             })
 
@@ -173,7 +212,7 @@
                             this.flashSwal('please, select employee');
                             return;
                         }
-                        if (!this.total_salary) {
+                        if (!this.total) {
                             this.flashSwal('please, add total salary');
                             return;
                         }

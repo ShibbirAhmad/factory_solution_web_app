@@ -34,9 +34,15 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td><img src="{{ $image }}" width="80" height="80" alt=""></td>
-                                            <td>
-                                                {{$employee->name}}</td>
-                                            <td>{{$employee->job_type}}</td>
+                                            <td> {{$employee->name}}</td>
+                                            @if ($employee->job_type ==1)
+                                                <td>Fulltime</td>
+                                            @elseif($employee->job_type ==2)
+                                                <td>Parttime</td>
+                                            @else
+                                                <td>Contractual</td>
+                                            @endif
+                                            
                                             <td>{{$employee->phone}}</td>
                                             <td>{{$total_working_day}}</td>
                                             <td>Hour</td>
