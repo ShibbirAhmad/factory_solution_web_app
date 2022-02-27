@@ -20,9 +20,8 @@
                                         <th>Total Working Day</th>
                                         <th>Total Working Hour</th>
                                         <th>Over Time</th>
-                                        <th>Total Amount</th>
-                                        <th>Total Paid</th>
-                                        <th>Due</th>
+                                        <th>Total Salary</th>
+                                        <th>Advance/Due</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,11 +43,10 @@
                                             @endif
                                             
                                             <td>{{$employee->phone}}</td>
-                                            <td>{{$total_working_day}}</td>
-                                            <td>Hour</td>
-                                            <td>Over Time</td>
+                                            <td>{{$employee->total_present}}</td>
+                                            <td>{{$employee->total_hour}}</td>
+                                            <td>{{$employee->total_overtime}}</td>
                                             <td>{{$employee->total_salary}}</td>
-                                            <td>{{$employee->total_paid}}</td>
                                             <td>{{$due = $employee->total_salary - $employee->total_paid}}</td>
                                         </tr>
                                     @endforeach
