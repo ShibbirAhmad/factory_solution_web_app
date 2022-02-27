@@ -66,10 +66,10 @@
                                     </div>
                                     <div class="col-lg-4 ">
                                         <h4 style="margin-top:40px;"> Total Assigned Quantity
-                                            <strong> {{ $total_task_qty }} </strong>
+                                            <strong> {{ $total_task_assigned_qty }} </strong>
                                         </h4>
                                         <h4> Final Stock Quantity
-                                            <strong id="total_order_completion_qty"> 0 </strong>
+                                            <strong id="total_order_completion_qty"> {{ $total_handover_qty }} </strong>
                                         </h4>
                                     </div>
 

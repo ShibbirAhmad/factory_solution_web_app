@@ -65,6 +65,10 @@
 
                                                 <td colspan="3">
                                                     <div class="group_report_list_container">
+                                                        @php
+                                                            $in_total_assigned_qty = 0;
+                                                            $in_total_handover_qty = 0;
+                                                        @endphp
                                                         <ul>
                                                             @forelse ($report->tasks as $item)
                                                                 <li>
@@ -76,18 +80,35 @@
                                                                             {{ $variant->name }}
                                                                         </div>
                                                                         <div class="col-lg-4">
-                                                                            <strong>
-                                                                                {{ $item->total_task_assigned_qty }}</strong>
+                                                                            <strong class="ml-5">
+                                                                                {{ $item->total_task_assigned_qty }}
+                                                                            </strong>
                                                                         </div>
                                                                         <div class="col-lg-4">
-                                                                            <strong>{{ $item->total_received_qty }}
-                                                                            </strong>
+                                                                            <strong class="ml-5">
+                                                                                {{ $item->total_received_qty }}</strong>
                                                                         </div>
                                                                     </div>
                                                                 </li>
+                                                                @php
+                                                                    $in_total_assigned_qty += $item->total_task_assigned_qty ;
+                                                                    $in_total_handover_qty += $item->total_received_qty ;
+                                                                @endphp
                                                             @empty
                                                                 <p> Sorry! No Data Found</p>
                                                             @endforelse
+
+                                                            <li>
+                                                                <div class="row">
+                                                                    <div class="col-lg-4"></div>
+                                                                    <div class="col-lg-4"> <strong
+                                                                            class="ml-5">={{ $in_total_assigned_qty  }}
+                                                                        </strong> </div>
+                                                                    <div class="col-lg-4"> <strong
+                                                                            class="ml-5">={{ $in_total_handover_qty }}
+                                                                        </strong> </div>
+                                                                </div>
+                                                            </li>
 
                                                         </ul>
 
@@ -117,7 +138,6 @@
                                 </div>
                             </div>
                         @else
-
                             <div class="col-lg-12 text-center">
                                 <h4> Task Final Completion Report </h4>
                             </div>

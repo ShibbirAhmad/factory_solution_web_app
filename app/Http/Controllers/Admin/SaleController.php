@@ -146,7 +146,7 @@ class SaleController extends Controller
                                         $value->{'product'} = Product::where('id',$value->product_id)->select('id','name','code','image')->first();
                                         $value->{'variants'} = SaleItem::where('product_id',$value->product_id)->select('variant_id','price','qty')->with(['variant:id,name'])->get();
                                   });
-
+            $data['total_sale_quantity'] = SaleItem::query()->where('sale_id',$data['sale']->id)->sum('qty'); ;
              return view('admin.pdf.sale_invoice')->with($data);
 
 

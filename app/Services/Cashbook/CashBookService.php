@@ -25,7 +25,7 @@ use App\Services\ProductionSoftwareService;
             $data['user_id'] = ProductionSoftwareService::merchantUserId();
             $data['payment_method_id'] = $payment_method->id;
             $data['amount'] = $data['amount'];
-            $data['isDiscount'] = $data['is_discount_payment'] = 1 ? 1 : 0;
+            $data['isDiscount'] = $data['is_discount_payment'] == 1 ? 1 : 0;
             $data['reference'] = $data['transaction_id'] ?? null;
             $data['isExpense'] = $data['due_type'] == 'purchase' ? 1 : 0 ;
             $data['paid_date'] = $data['paid_date'] ?? null;

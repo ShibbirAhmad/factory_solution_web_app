@@ -419,6 +419,7 @@
                         this.totalAmount();
                     }
                 },
+
                 totalAmount() {
                     if (this.sale_items.length > 0) {
                         let t_amount = 0;
@@ -430,6 +431,8 @@
                         return;
                     }
                 },
+
+
                 dueAmountCaluculation() {
                     let t_amount = parseFloat(this.total);
                     this.discount = this.discount.length <= 0 && this.discount <= 0 ? 0 : parseFloat(this.discount);
@@ -440,6 +443,8 @@
                     let due = Number(t_amount - (discount + paid));
                     this.due = Number(due);
                 },
+
+
                 //remove method of sale item
                 removeItem(item_index) {
                     console.log(item_index);
@@ -503,14 +508,20 @@
                         text: message,
                     })
                 },
+
             },
+
+
             computed: {
+
                 itemAmount: function() {
                     return parseInt(document.getElementById('variants_total_qty').value) * (this.price == null ?
                         0 : parseInt(this.price))
                 },
 
             }
+
+
         })
 
 

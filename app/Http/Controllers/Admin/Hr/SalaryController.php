@@ -28,7 +28,7 @@ class SalaryController extends Controller
                                 $value->{'total_paid_leave'} = ExpertLeave::where('expert_id',$value->id)->whereMonth('created_at', Carbon::now()->month)->where('status',1)->sum('days');
                                 $value->{'total_absent'} = ExpertLeave::where('expert_id',$value->id)->whereMonth('created_at', Carbon::now()->month)->where('status',2)->sum('days');
                                 $value->{'total_hour'} = self::hourCalculator($attendances);
-                                $value->{'total_overtime'} = intval($value->{'total_hour'})  - ( (intval( $value->{'total_present'}) - intval($value->{'total_paid_leave'}))  * intval($value->daily_working_hour))  ;
+                                $value->{'total_overtime'} = intval($value->{'total_hour'})  - ( (intval( $value->{'total_present'}) + intval($value->{'total_paid_leave'}))  * intval($value->daily_working_hour))  ;
                         });
         return view('admin.hr.salary.index', compact('experts'));
     }
@@ -71,7 +71,7 @@ class SalaryController extends Controller
                 'payment_method' => 'required',
                 'expert_id' => 'required',
             ]);
-       
+
         try {
 
             DB::beginTransaction();
@@ -90,7 +90,7 @@ class SalaryController extends Controller
             $expert_salary->payment_method_id = $request->payment_method;
             $expert_salary->comment = $request->comment;
             $expert_salary->save();
-            
+
             //storing in cashbook
             $data['amount'] = $data['amount'] ;
             $data['due_type'] = 'purchase';
@@ -101,7 +101,7 @@ class SalaryController extends Controller
                 'status' => 1,
                 'message' => 'salary paid successful'
             ]);
-           
+
         } catch (\Throwable $e) {
             DB::rollBack();
             LogTracker::failLog($e,Auth::user()->id);
@@ -110,9 +110,9 @@ class SalaryController extends Controller
                 'message' => 'salary paid failed'
             ]);
         }
-       
-        
-        
+
+
+
     }
 
 
@@ -126,7 +126,7 @@ class SalaryController extends Controller
         $expert->{'total_paid_leave'} = ExpertLeave::where('expert_id',$expert->id)->whereMonth('created_at', Carbon::now()->month)->where('status',1)->sum('days');
         $expert->{'total_absent'} = ExpertLeave::where('expert_id',$expert->id)->whereMonth('created_at', Carbon::now()->month)->where('status',2)->sum('days');
         $expert->{'total_hour'} = self::hourCalculator($attendances);
-        $expert->{'total_overtime'} = intval($expert->{'total_hour'})  - ( (intval($expert->{'total_present'}) - intval($expert->{'total_paid_leave'}) ) * intval($expert->daily_working_hour))   ;
+        $expert->{'total_overtime'} = intval($expert->{'total_hour'})  - ( (intval($expert->{'total_present'}) + intval($expert->{'total_paid_leave'}) ) * intval($expert->daily_working_hour))   ;
 
         return response()->json([
             'status' => 1,

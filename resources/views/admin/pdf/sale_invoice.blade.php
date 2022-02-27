@@ -160,9 +160,9 @@
                 <img class="company_logo" src="{{ asset('frontend/image/logo.png') }}" alt="logo">
                 <div class="pull-right moha_add_inv">
                     <p>Office: House: 02, Lane: 11, Block: A,</p>
-                    <p>Benarashi Polly, Section-10, Mirpur, Dhaka.</p>
-                    <p>E-mail: support@mohasagor.com</p>
-                    <p>Hot Line: 09636-203040/01635-212121</p>
+                    <p>Mirpur-11, Dhaka-1216.</p>
+                    <p>E-mail: support@mahadizone.com</p>
+                    <p>Hot Line: 01635-212121</p>
                     <p class="current_date" style="margin-top: 5px;">
                         <strong> Date: <span style="border:1px solid #ddd"> <?php echo date('d/m/Y'); ?></span> </strong>
                     </p>
@@ -228,35 +228,34 @@
                             </tr>
                         @endforeach
 
-                        {{-- <tr>
-                                <td colspan="5" class="text-right"> Total Quantity and Shipping Charge </td>
-                                <td> <strong> = {{ countOrderTotayQty($sale->orderItem) }} </strong> </td>
-                                <td class="text-right"><span style="font-size: 13px;">{{ $sale->shipping_cost }}
-                                        Tk</span></td>
+                        <tr>
+                                <td colspan="5" class="text-right"> Total Quantity = </td>
+                                <td> <strong> {{ $total_sale_quantity }} </strong> </td>
+
                             </tr>
                             <tr>
-                                <td colspan="6" class="text-right">Total:</td>
+                                <td colspan="5" class="text-right">Total:</td>
                                 <td class="text-right">
                                     <span style="font-weight:bold;font-size:13px;">
                                         {{ $sale->shipping_cost + $sale->total }} TK</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="6" class="text-right">Discount:</td>
+                                <td colspan="5" class="text-right">Discount:</td>
                                 <td class="text-right"> {{ $sale->discount }} Tk</td>
                             </tr>
                             <tr>
-                                <td colspan="6" class="text-right">Paid:</td>
+                                <td colspan="5" class="text-right">Paid:</td>
                                 <td class="text-right"> {{ $sale->paid }} Tk</td>
                             </tr>
                             <tr>
-                                <td colspan="6" class="text-right">Amount Due:</td>
+                                <td colspan="5" class="text-right">Amount Due:</td>
                                 <td style="font-weight:bold;color:#000;background-color: #04AA6D !important"
                                     class="text-right">
-                                    {{ $sale->total - ($sale->paid + $sale->discount) + $sale->shipping_cost }}
+                                    {{ $sale->total - ($sale->paid + $sale->discount)  }}
                                     Tk
                                 </td>
-                            </tr> --}}
+                            </tr>
 
                     </tbody>
                 </table>
