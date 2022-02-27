@@ -40,7 +40,7 @@ use App\Services\ProductionSoftwareService;
                   $data['supplier_id'] = $purchase->supplier_id ?? null ;
                   Cashbook::query()->create($data);
 
-           }else if ($store_type==2){
+           }else if($store_type==2){
 
                   $sale=Sale::where('invoice_no',$invoice_no)->first();
                   $data['purchase_id'] =  null;
@@ -49,7 +49,6 @@ use App\Services\ProductionSoftwareService;
                   $data['client_id'] = $sale->client_id ;
                   $data['supplier_id'] = null ;
                   Cashbook::query()->create($data);
-
            }
 
            return ;
