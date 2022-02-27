@@ -92,7 +92,7 @@
                                         <p>Present: <strong class="paid"> @{{ employee.total_present }}</strong></p>
                                         <p>Daily Working Hour: <strong class="paid"> @{{ employee.daily_working_hour }}</strong></p>
                                         <p>Working Hour: <strong class="paid"> @{{ employee.total_hour }}</strong></p>
-                                        <p>Job Type: <strong class="paid"> @{{ employee.job_type }}</strong></p>
+                                        <p>Job Type: <strong class="paid"> @{{ employee.job_type == 1 ? 'Monthly' : employee.job_type == 2 ? 'Hourly' : 'Contactual' }}</strong></p>
                                         {{-- <p>Total Working Hour: <strong class="balance"> @{{ parseInt(employee.current_salary) - parseInt(employee.total_paid) }}</strong> </p> --}}
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                             expert_id: this.expert_id,
                             bonus: this.bonus,
                             fine: this.fine,
-                            amount: this.total,
+                            amount: this.amount,
                             payment_method: this.payment_method,
                             comment: this.comment
                         }

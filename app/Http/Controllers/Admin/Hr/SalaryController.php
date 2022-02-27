@@ -22,7 +22,7 @@ class SalaryController extends Controller
 
     public function index()
     {
-        $experts = Expert::where('user_id',auth()->id())->where('status',1)->select('id','job_type','name','phone','avatar','current_salary','daily_working_hour','per_hour_salary')->get()->each(function($value){
+        $experts = Expert::where('user_id',auth()->id())->where('status',1)->select('id','job_type','name','phone','avatar','current_salary','daily_working_hour','per_hour_salary', 'total_salary')->get()->each(function($value){
                                 $attendances= Attendance::where('user_expert_id',$value->id)->whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
                                 $value->{'total_present'} = $attendances->count();
                                 $value->{'total_paid_leave'} = ExpertLeave::where('expert_id',$value->id)->whereMonth('created_at', Carbon::now()->month)->where('status',1)->sum('days');
@@ -142,6 +142,10 @@ class SalaryController extends Controller
         $bonus = ExpertSalary::where('expert_id', $expert->id)->sum('bonus');
         $fine = ExpertSalary::where('expert_id', $expert->id)->sum('fine');
         $expert_salary = ExpertSalary::where('expert_id', $expert->id)->get();
+        //Due/Advance Amount
+        $start = '';
+        $attendances= Attendance::where('user_expert_id',$expert->id)->whereMonth('created_at', Carbon::now()->month)->get();
+
         return view('admin.hr.salary.view-salary', compact('view_profile', 'total_amount', 'bonus', 'fine', 'expert_salary'));
     }
 
